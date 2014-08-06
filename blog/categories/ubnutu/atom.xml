@@ -2,10 +2,10 @@
 <feed xmlns="http://www.w3.org/2005/Atom">
 
   <title><![CDATA[Category: Ubnutu | Mikhail Nikalyukin]]></title>
-  <link href="http://nikalyuk.in/blog/categories/ubnutu/atom.xml" rel="self"/>
-  <link href="http://nikalyuk.in/"/>
-  <updated>2014-08-06T13:38:30+04:00</updated>
-  <id>http://nikalyuk.in/</id>
+  <link href="http://dpsk.github.io/blog/categories/ubnutu/atom.xml" rel="self"/>
+  <link href="http://dpsk.github.io/"/>
+  <updated>2014-08-06T15:09:53+04:00</updated>
+  <id>http://dpsk.github.io/</id>
   <author>
     <name><![CDATA[Mikhail Nikalyukin]]></name>
     <email><![CDATA[idups1k@gmail.com]]></email>
@@ -15,9 +15,9 @@
   
   <entry>
     <title type="html"><![CDATA[Install Jenkins CI for Rails project with Cucumber]]></title>
-    <link href="http://nikalyuk.in/blog/2013/07/26/install-jenkins-ci-for-rails-project-with-cucumber/"/>
+    <link href="http://dpsk.github.io/blog/2013/07/26/install-jenkins-ci-for-rails-project-with-cucumber/"/>
     <updated>2013-07-26T18:34:00+04:00</updated>
-    <id>http://nikalyuk.in/blog/2013/07/26/install-jenkins-ci-for-rails-project-with-cucumber</id>
+    <id>http://dpsk.github.io/blog/2013/07/26/install-jenkins-ci-for-rails-project-with-cucumber</id>
     <content type="html"><![CDATA[<h2>Jenkins</h2>
 
 <p><img class="right" src="/images/posts/jenkins_logo.png" title="&lsquo;Jenkins logo&rsquo;" >

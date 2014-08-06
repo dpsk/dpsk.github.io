@@ -2,10 +2,10 @@
 <feed xmlns="http://www.w3.org/2005/Atom">
 
   <title><![CDATA[Category: Middleware | Mikhail Nikalyukin]]></title>
-  <link href="http://nikalyuk.in/blog/categories/middleware/atom.xml" rel="self"/>
-  <link href="http://nikalyuk.in/"/>
-  <updated>2014-08-06T13:38:30+04:00</updated>
-  <id>http://nikalyuk.in/</id>
+  <link href="http://dpsk.github.io/blog/categories/middleware/atom.xml" rel="self"/>
+  <link href="http://dpsk.github.io/"/>
+  <updated>2014-08-06T15:09:53+04:00</updated>
+  <id>http://dpsk.github.io/</id>
   <author>
     <name><![CDATA[Mikhail Nikalyukin]]></name>
     <email><![CDATA[idups1k@gmail.com]]></email>
@@ -15,9 +15,9 @@
   
   <entry>
     <title type="html"><![CDATA[Track request time with the Faraday]]></title>
-    <link href="http://nikalyuk.in/blog/2013/10/01/track-request-time-with-the-faraday/"/>
+    <link href="http://dpsk.github.io/blog/2013/10/01/track-request-time-with-the-faraday/"/>
     <updated>2013-10-01T14:15:00+04:00</updated>
-    <id>http://nikalyuk.in/blog/2013/10/01/track-request-time-with-the-faraday</id>
+    <id>http://dpsk.github.io/blog/2013/10/01/track-request-time-with-the-faraday</id>
     <content type="html"><![CDATA[<p>I&rsquo;m frequently find myself in need to measure request time of remote request from my application to an API or service. Previously, i used simple block of ruby code with <code>start_time</code> and <code>end_time</code>. Finally i decided to find out more robust method of doing so. I&rsquo;m using <code>faraday</code> gem for remote requests, because it&rsquo;s easy extendable by middlewares and great overall. You can take a look at the project with collection of middlewares for faraday on <a href="https://github.com/lostisland/faraday_middleware">github</a>. This project contains <code>Instrumentation</code> middleware that we will use for tracking time of our request.</p>
 
 <p>Before we start, here is an image of Dr. Faraday from LOST:</p>
@@ -120,9 +120,9 @@ Pretty straightforward, we just instrument event <code>'request.faraday'</code>.
   
   <entry>
     <title type="html"><![CDATA[Faraday - using backup host for remote requests]]></title>
-    <link href="http://nikalyuk.in/blog/2013/06/25/faraday-using-backup-host-for-remote-request/"/>
+    <link href="http://dpsk.github.io/blog/2013/06/25/faraday-using-backup-host-for-remote-request/"/>
     <updated>2013-06-25T14:42:00+04:00</updated>
-    <id>http://nikalyuk.in/blog/2013/06/25/faraday-using-backup-host-for-remote-request</id>
+    <id>http://dpsk.github.io/blog/2013/06/25/faraday-using-backup-host-for-remote-request</id>
     <content type="html"><![CDATA[<p>Nowadays almost every Rails application interact with the remote service or API. The problem is that you can&rsquo;t fully trust those services and you forced to add a lot of test coverage and exception handling for this part of code. Once i worked with the API that had mirror server for case when the main one is unavailable. I write a middleware for <a href="https://github.com/lostisland/faraday">Faraday</a>, which will use backup host(provided by user) if the original one is unresponsive.</p>
 
 <!--more-->

@@ -2,10 +2,10 @@
 <feed xmlns="http://www.w3.org/2005/Atom">
 
   <title><![CDATA[Category: Databases | Mikhail Nikalyukin]]></title>
-  <link href="http://nikalyuk.in/blog/categories/databases/atom.xml" rel="self"/>
-  <link href="http://nikalyuk.in/"/>
-  <updated>2014-08-06T13:38:30+04:00</updated>
-  <id>http://nikalyuk.in/</id>
+  <link href="http://dpsk.github.io/blog/categories/databases/atom.xml" rel="self"/>
+  <link href="http://dpsk.github.io/"/>
+  <updated>2014-08-06T15:09:53+04:00</updated>
+  <id>http://dpsk.github.io/</id>
   <author>
     <name><![CDATA[Mikhail Nikalyukin]]></name>
     <email><![CDATA[idups1k@gmail.com]]></email>
@@ -15,9 +15,9 @@
   
   <entry>
     <title type="html"><![CDATA[Connecting rails project with multiple databases]]></title>
-    <link href="http://nikalyuk.in/blog/2013/06/21/connecting-rails-project-with-multiple-databases/"/>
+    <link href="http://dpsk.github.io/blog/2013/06/21/connecting-rails-project-with-multiple-databases/"/>
     <updated>2013-06-21T16:22:00+04:00</updated>
-    <id>http://nikalyuk.in/blog/2013/06/21/connecting-rails-project-with-multiple-databases</id>
+    <id>http://dpsk.github.io/blog/2013/06/21/connecting-rails-project-with-multiple-databases</id>
     <content type="html"><![CDATA[<p>I want to share my experience with multiple database and Rails 3.2 application. Today on one of my project i was in need to implement support ticketing system. Database for this system was already working for a good amount of time, so i was forced to use it as a source. So let&rsquo;s start, first of all we should create base class in the <code>/app/models/</code>, so we can inherit models, that will use external database as source.
 <div class='bogus-wrapper'><notextile><figure class='code'><figcaption><span>app/models/support_base.rb </span></figcaption>
  <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>

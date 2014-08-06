@@ -1,4 +1,4 @@
 User-agent: *
 Disallow: 
 
-Sitemap: http://nikalyuk.in/sitemap.xml 
+Sitemap: http://dpsk.github.io/sitemap.xml 
