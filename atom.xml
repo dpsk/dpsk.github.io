@@ -4,7 +4,7 @@
   <title><![CDATA[Mikhail Nikalyukin]]></title>
   <link href="http://dpsk.github.io/atom.xml" rel="self"/>
   <link href="http://dpsk.github.io/"/>
-  <updated>2014-08-06T15:09:53+04:00</updated>
+  <updated>2014-08-06T15:11:17+04:00</updated>
   <id>http://dpsk.github.io/</id>
   <author>
     <name><![CDATA[Mikhail Nikalyukin]]></name>
@@ -18,9 +18,7 @@
     <link href="http://dpsk.github.io/blog/2014/08/06/install-r-programming-language-on-os-x-with-homebrew/"/>
     <updated>2014-08-06T13:25:00+04:00</updated>
     <id>http://dpsk.github.io/blog/2014/08/06/install-r-programming-language-on-os-x-with-homebrew</id>
-    <content type="html"><![CDATA[<h2>R</h2>
-
-<p>First of all here is a small video with highlight of R</p>
+    <content type="html"><![CDATA[<p>First of all here is a small video with highlight of R</p>
 
 <div class="embed-video-container"><iframe src="http://www.youtube.com/embed/TR2bHSJ_eck" allowfullscreen></iframe></div>
 
