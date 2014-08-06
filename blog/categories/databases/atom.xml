@@ -1,0 +1,232 @@
+<?xml version="1.0" encoding="utf-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom">
+
+  <title><![CDATA[Category: Databases | Mikhail Nikalyukin]]></title>
+  <link href="http://nikalyuk.in/blog/categories/databases/atom.xml" rel="self"/>
+  <link href="http://nikalyuk.in/"/>
+  <updated>2014-08-06T13:38:30+04:00</updated>
+  <id>http://nikalyuk.in/</id>
+  <author>
+    <name><![CDATA[Mikhail Nikalyukin]]></name>
+    <email><![CDATA[idups1k@gmail.com]]></email>
+  </author>
+  <generator uri="http://octopress.org/">Octopress</generator>
+
+  
+  <entry>
+    <title type="html"><![CDATA[Connecting rails project with multiple databases]]></title>
+    <link href="http://nikalyuk.in/blog/2013/06/21/connecting-rails-project-with-multiple-databases/"/>
+    <updated>2013-06-21T16:22:00+04:00</updated>
+    <id>http://nikalyuk.in/blog/2013/06/21/connecting-rails-project-with-multiple-databases</id>
+    <content type="html"><![CDATA[<p>I want to share my experience with multiple database and Rails 3.2 application. Today on one of my project i was in need to implement support ticketing system. Database for this system was already working for a good amount of time, so i was forced to use it as a source. So let&rsquo;s start, first of all we should create base class in the <code>/app/models/</code>, so we can inherit models, that will use external database as source.
+<div class='bogus-wrapper'><notextile><figure class='code'><figcaption><span>app/models/support_base.rb </span></figcaption>
+ <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+</pre></td><td class='code'><pre><code class='rb'><span class='line'><span class="k">class</span> <span class="nc">SupportBase</span> <span class="o">&amp;</span><span class="n">lt</span><span class="p">;</span> <span class="ss">ActiveRecord</span><span class="p">:</span><span class="ss">:Base</span><span class="o">&lt;</span><span class="sr">/p&gt;</span>
+</span><span class='line'>
+</span><span class='line'><span class="sr">&lt;p&gt;  self.abstract_class = true&lt;/</span><span class="nb">p</span><span class="o">&gt;</span>
+</span><span class='line'>
+</span><span class='line'><span class="o">&lt;</span><span class="nb">p</span><span class="o">&gt;</span>  <span class="n">databases</span> <span class="o">=</span> <span class="ss">YAML</span><span class="p">:</span><span class="ss">:load</span><span class="p">(</span><span class="no">IO</span><span class="o">.</span><span class="n">read</span><span class="p">(</span><span class="o">&amp;</span><span class="n">lsquo</span><span class="p">;</span><span class="n">config</span><span class="o">/</span><span class="n">database_support</span><span class="o">.</span><span class="n">yml</span><span class="o">&amp;</span><span class="n">rsquo</span><span class="p">;))</span>
+</span><span class='line'>  <span class="n">establish_connection</span><span class="p">(</span><span class="n">databases</span><span class="o">[</span><span class="no">Rails</span><span class="o">.</span><span class="n">env</span><span class="o">]</span><span class="p">)</span><span class="o">&lt;</span><span class="sr">/p&gt;</span>
+</span><span class='line'>
+</span><span class='line'><span class="sr">&lt;p&gt;end</span>
+</span></code></pre></td></tr></table></div></figure></notextile></div></p>
+
+<!--more-->
+
+
+<p>The <code>self.abstract_class = true</code> tells Active Record to not look up for a table, since this class is only used to add customm settings we don&rsquo;t need any database table for it.</p>
+
+<p>After that we should create a databases.rake file that will wrap database tasks for external database.</p>
+
+<p><div class='bogus-wrapper'><notextile><figure class='code'><figcaption><span>lib/tasks/databases.rake </span></figcaption>
+ <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+<span class='line-number'>20</span>
+<span class='line-number'>21</span>
+<span class='line-number'>22</span>
+<span class='line-number'>23</span>
+<span class='line-number'>24</span>
+<span class='line-number'>25</span>
+<span class='line-number'>26</span>
+<span class='line-number'>27</span>
+<span class='line-number'>28</span>
+<span class='line-number'>29</span>
+<span class='line-number'>30</span>
+<span class='line-number'>31</span>
+<span class='line-number'>32</span>
+<span class='line-number'>33</span>
+<span class='line-number'>34</span>
+<span class='line-number'>35</span>
+<span class='line-number'>36</span>
+<span class='line-number'>37</span>
+<span class='line-number'>38</span>
+<span class='line-number'>39</span>
+<span class='line-number'>40</span>
+<span class='line-number'>41</span>
+<span class='line-number'>42</span>
+<span class='line-number'>43</span>
+<span class='line-number'>44</span>
+<span class='line-number'>45</span>
+<span class='line-number'>46</span>
+<span class='line-number'>47</span>
+<span class='line-number'>48</span>
+<span class='line-number'>49</span>
+<span class='line-number'>50</span>
+<span class='line-number'>51</span>
+<span class='line-number'>52</span>
+<span class='line-number'>53</span>
+<span class='line-number'>54</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="n">namespace</span> <span class="ss">:support</span> <span class="k">do</span><span class="o">&lt;</span><span class="sr">/p&gt;</span>
+</span><span class='line'>
+</span><span class='line'><span class="sr">&lt;p&gt;  desc &amp;ldquo;Configure the variables that rails need in order to look up for the db&lt;/</span><span class="nb">p</span><span class="o">&gt;</span>
+</span><span class='line'>
+</span><span class='line'><span class="o">&lt;</span><span class="n">pre</span><span class="o">&gt;&lt;</span><span class="n">code</span><span class="o">&gt;</span><span class="n">configuration</span> <span class="k">in</span> <span class="n">a</span> <span class="n">different</span> <span class="n">folder</span><span class="s2">&quot;</span>
+</span><span class='line'><span class="s2">&lt;/code&gt;&lt;/pre&gt;</span>
+</span><span class='line'>
+</span><span class='line'><span class="s2">&lt;p&gt;  task :set_custom_db_config_paths do&lt;/p&gt;</span>
+</span><span class='line'>
+</span><span class='line'><span class="s2">&lt;pre&gt;&lt;code&gt;# This is the minimum required to tell rails to use a different location</span>
+</span><span class='line'><span class="s2"># for all the files related to the database.</span>
+</span><span class='line'><span class="s2">ENV[&#39;SCHEMA&#39;] = &#39;db_support/schema.rb&#39;</span>
+</span><span class='line'><span class="s2">Rails.application.config.paths[&#39;db&#39;] = [&#39;db_support&#39;]</span>
+</span><span class='line'><span class="s2">Rails.application.config.paths[&#39;db/migrate&#39;] = [&#39;db_support/migrate&#39;]</span>
+</span><span class='line'><span class="s2">Rails.application.config.paths[&#39;db/seeds&#39;] = [&#39;db_support/seeds.rb&#39;]</span>
+</span><span class='line'><span class="s2">Rails.application.config.paths[&#39;config/database&#39;] = [&#39;config/database_support.yml&#39;]</span>
+</span><span class='line'><span class="s2">&lt;/code&gt;&lt;/pre&gt;</span>
+</span><span class='line'>
+</span><span class='line'><span class="s2">&lt;p&gt;  end&lt;/p&gt;</span>
+</span><span class='line'>
+</span><span class='line'><span class="s2">&lt;p&gt;  namespace :db do&lt;/p&gt;</span>
+</span><span class='line'>
+</span><span class='line'><span class="s2">&lt;pre&gt;&lt;code&gt;task :drop =&amp;gt; :set_custom_db_config_paths do</span>
+</span><span class='line'><span class="s2">  Rake::Task[&quot;</span><span class="ss">db</span><span class="p">:</span><span class="n">drop</span><span class="s2">&quot;].invoke</span>
+</span><span class='line'><span class="s2">end</span>
+</span><span class='line'>
+</span><span class='line'><span class="s2">task :create =&amp;gt; :set_custom_db_config_paths do</span>
+</span><span class='line'><span class="s2">  Rake::Task[&quot;</span><span class="ss">db</span><span class="p">:</span><span class="n">create</span><span class="s2">&quot;].invoke</span>
+</span><span class='line'><span class="s2">end</span>
+</span><span class='line'>
+</span><span class='line'><span class="s2">task :migrate =&amp;gt; :set_custom_db_config_paths do</span>
+</span><span class='line'><span class="s2">  Rake::Task[&quot;</span><span class="ss">db</span><span class="p">:</span><span class="n">migrate</span><span class="s2">&quot;].invoke</span>
+</span><span class='line'><span class="s2">end</span>
+</span><span class='line'>
+</span><span class='line'><span class="s2">task :rollback =&amp;gt; :set_custom_db_config_paths do</span>
+</span><span class='line'><span class="s2">  Rake::Task[&quot;</span><span class="ss">db</span><span class="p">:</span><span class="n">rollback</span><span class="s2">&quot;].invoke</span>
+</span><span class='line'><span class="s2">end</span>
+</span><span class='line'>
+</span><span class='line'><span class="s2">task :seed =&amp;gt; :set_custom_db_config_paths do</span>
+</span><span class='line'><span class="s2">  Rake::Task[&quot;</span><span class="ss">db</span><span class="p">:</span><span class="n">seed</span><span class="s2">&quot;].invoke</span>
+</span><span class='line'><span class="s2">end</span>
+</span><span class='line'><span class="s2">namespace :test do</span>
+</span><span class='line'><span class="s2">  task :prepare =&amp;gt; :set_custom_db_config_paths do</span>
+</span><span class='line'><span class="s2">    Rake::Task[&quot;</span><span class="ss">db</span><span class="p">:</span><span class="nb">test</span><span class="ss">:prepare</span><span class="s2">&quot;].invoke</span>
+</span><span class='line'><span class="s2">  end</span>
+</span><span class='line'><span class="s2">end</span>
+</span><span class='line'>
+</span><span class='line'><span class="s2">task :version =&amp;gt; :set_custom_db_config_paths do</span>
+</span><span class='line'><span class="s2">  Rake::Task[&quot;</span><span class="ss">db</span><span class="p">:</span><span class="n">version</span><span class="s2">&quot;].invoke</span>
+</span><span class='line'><span class="s2">end</span>
+</span><span class='line'><span class="s2">&lt;/code&gt;&lt;/pre&gt;</span>
+</span><span class='line'>
+</span><span class='line'><span class="s2">&lt;p&gt;  end</span>
+</span><span class='line'><span class="s2">end</span>
+</span></code></pre></td></tr></table></div></figure></notextile></div></p>
+
+<p>We basically get all the standart rake database tasks wrapped in the support namespace and redefine application paths, so rake will run this commands on the external database.</p>
+
+<h2>Now, let&rsquo;s create files that we mention in this task:</h2>
+
+<ul>
+<li><code>db_support</code> folder in the root of application</li>
+<li><code>db_support/migrate</code> folder for migrations</li>
+<li><code>db_support/seeds.rb</code> file with the seeds for support database</li>
+<li><code>config/database_support.yml</code> file with the settings for database connection</li>
+</ul>
+
+
+<p>Here is an example of <code>database_support.yml</code>:</p>
+
+<p><div class='bogus-wrapper'><notextile><figure class='code'><figcaption><span>config/database_support.yml </span></figcaption>
+ <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+<span class='line-number'>20</span>
+<span class='line-number'>21</span>
+<span class='line-number'>22</span>
+<span class='line-number'>23</span>
+<span class='line-number'>24</span>
+</pre></td><td class='code'><pre><code class='yaml'><span class='line'><span class="l-Scalar-Plain">development</span><span class="p-Indicator">:</span>
+</span><span class='line'>  <span class="l-Scalar-Plain">adapter</span><span class="p-Indicator">:</span> <span class="l-Scalar-Plain">mysql2</span>
+</span><span class='line'>  <span class="l-Scalar-Plain">database</span><span class="p-Indicator">:</span> <span class="l-Scalar-Plain">support_development</span>
+</span><span class='line'>  <span class="l-Scalar-Plain">pool</span><span class="p-Indicator">:</span> <span class="l-Scalar-Plain">5</span>
+</span><span class='line'>  <span class="l-Scalar-Plain">username</span><span class="p-Indicator">:</span> <span class="l-Scalar-Plain">user</span>
+</span><span class='line'>  <span class="l-Scalar-Plain">password</span><span class="p-Indicator">:</span> <span class="l-Scalar-Plain">password&lt;/p&gt;</span>
+</span><span class='line'>
+</span><span class='line'><span class="l-Scalar-Plain">&lt;p&gt;test</span><span class="p-Indicator">:</span>
+</span><span class='line'>  <span class="l-Scalar-Plain">adapter</span><span class="p-Indicator">:</span> <span class="l-Scalar-Plain">mysql2</span>
+</span><span class='line'>  <span class="l-Scalar-Plain">database</span><span class="p-Indicator">:</span> <span class="l-Scalar-Plain">support_test</span>
+</span><span class='line'>  <span class="l-Scalar-Plain">pool</span><span class="p-Indicator">:</span> <span class="l-Scalar-Plain">5</span>
+</span><span class='line'>  <span class="l-Scalar-Plain">username</span><span class="p-Indicator">:</span> <span class="l-Scalar-Plain">user</span>
+</span><span class='line'>  <span class="l-Scalar-Plain">password</span><span class="p-Indicator">:</span> <span class="l-Scalar-Plain">password&lt;/p&gt;</span>
+</span><span class='line'>
+</span><span class='line'><span class="l-Scalar-Plain">&lt;p&gt;production</span><span class="p-Indicator">:</span>
+</span><span class='line'>  <span class="l-Scalar-Plain">adapter</span><span class="p-Indicator">:</span> <span class="l-Scalar-Plain">mysql2</span>
+</span><span class='line'>  <span class="l-Scalar-Plain">database</span><span class="p-Indicator">:</span> <span class="l-Scalar-Plain">partners_external</span>
+</span><span class='line'>  <span class="l-Scalar-Plain">pool</span><span class="p-Indicator">:</span> <span class="l-Scalar-Plain">5</span>
+</span><span class='line'>  <span class="l-Scalar-Plain">ip</span><span class="p-Indicator">:</span> <span class="l-Scalar-Plain">192.168.1.1</span>
+</span><span class='line'>  <span class="l-Scalar-Plain">port</span><span class="p-Indicator">:</span> <span class="l-Scalar-Plain">3306</span>
+</span><span class='line'>  <span class="l-Scalar-Plain">username</span><span class="p-Indicator">:</span> <span class="l-Scalar-Plain">external_username</span>
+</span><span class='line'>  <span class="l-Scalar-Plain">password</span><span class="p-Indicator">:</span> <span class="l-Scalar-Plain">external_password&lt;/p&gt;</span>
+</span><span class='line'>
+</span><span class='line'><span class="l-Scalar-Plain">&lt;p&gt;</span>
+</span></code></pre></td></tr></table></div></figure></notextile></div></p>
+
+<p>The key is that you still want to use local database in the development and for the tests.</p>
+
+<p>At this point we are pretty much done, now we can use commands like <code>bundle exec rake support:db:create</code> to create development and test database. We also still able to use <code>bundle exec rake db:migrate</code> for the default database.</p>
+
+<p>This solution is pretty extensible, so it wouldn&rsquo;t be hard to add as much databases as you need.</p>
+]]></content>
+  </entry>
+  
+</feed>

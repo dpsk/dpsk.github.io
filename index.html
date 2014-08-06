@@ -1,1 +1,398 @@
-My Octopress Page is coming soon &hellip;
+
+<!DOCTYPE HTML>
+<html>
+<head>
+	<meta charset="utf-8">
+	<title>Mikhail Nikalyukin</title>
+	<meta name="author" content="Mikhail Nikalyukin">
+
+	
+	<meta name="description" content="Aug 6th, 2014 Homebrew, R Comments Install R Programming Language on OS X With Homebrew R First of all here is a small video with highlight of R &hellip;">
+	
+
+  <!-- http://t.co/dKP3o1e -->
+  <meta name="HandheldFriendly" content="True">
+  <meta name="MobileOptimized" content="320">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+	<link href="/atom.xml" rel="alternate" title="Mikhail Nikalyukin" type="application/atom+xml">
+	
+	<link rel="canonical" href="http://nikalyuk.in/">
+	<link href="/favicon.png" rel="shortcut icon">
+	<link href="/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
+	<!--[if lt IE 9]><script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script><![endif]-->
+	<script src="//ajax.googleapis.com/ajax/libs/jquery/1.7.2/jquery.min.js"></script>
+	<link href='http://fonts.googleapis.com/css?family=Open+Sans:400italic,400,700' rel='stylesheet' type='text/css'>
+	<!--Fonts from Google"s Web font directory at http://google.com/webfonts -->
+<link href="http://fonts.googleapis.com/css?family=PT+Serif:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+<link href="http://fonts.googleapis.com/css?family=PT+Sans:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+
+</head>
+
+
+<body>
+	<div class="container">
+		<div class="left-col">
+			<div class="intrude-less">
+			<header id="header" class="inner"><div class="profilepic">
+	<script src="/javascripts/md5.js"></script>
+	<script type="text/javascript">
+		$(function(){
+			$('.profilepic').append("<img src='http://www.gravatar.com/avatar/" + MD5("idups1k@gmail.com") + "?s=160' alt='Profile Picture' style='width: 160px;' />");
+		});
+	</script>
+</div>
+<hgroup>
+  <h1><a href="/">Mikhail Nikalyukin</a></h1>
+</hgroup>
+
+<p class="subtitle">Ruby on Rails Blog</p>
+<a href="mailto:idups1k@gmail.com">Send me a message!</a>
+<nav id="main-nav"><ul class="main-navigation">
+  <li><a href="/">Blog</a></li>
+  <li><a href="/blog/archives">Archives</a></li>
+</ul>
+
+
+<section class="aboutme">
+  <p>
+    Do what i love. Love what i do.
+  </p>
+</section>
+</nav>
+<nav id="sub-nav">
+	<div class="social">
+		
+		
+		<a class="google" href="https://plus.google.com/102514352683831634549" rel="author" title="Google+">Google+</a>
+		
+		
+		<a class="twitter" href="http://twitter.com/dpskftw" title="Twitter">Twitter</a>
+		
+		
+		<a class="github" href="https://github.com/dpsk" title="GitHub">GitHub</a>
+		
+		<a class="stackoverflow" href="http://stackoverflow.com/users/748259/mikhail-nikalyukin" title="stackoverflow">Stackoverflow</a>
+		
+		<a class="coderwall" href="https://coderwall.com/dpsk" title="Coderwall">Coderwall</a>
+		
+	</div>
+</nav></header>				
+			</div>
+		</div>	
+		<div class="mid-col">
+			
+				
+			
+			<div class="mid-col-container">
+				<div id="content" class="inner">
+<div itemscope itemtype="http://schema.org/Blog">
+
+
+    <article class="post" itemprop="blogPost" itemscope itemtype="http://schema.org/BlogPosting">
+	<div class="meta">
+		<div class="date">
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2014-08-06T13:25:00+04:00" data-updated="true" itemprop="datePublished">Aug 6<span>th</span>, 2014</time></div>
+		<div class="tags">
+
+
+	<a class='category' href='/blog/categories/homebrew/'>Homebrew</a>, <a class='category' href='/blog/categories/r/'>R</a>
+
+
+</div>
+		
+			<span class="comments"><a href="/blog/2014/08/06/install-r-programming-language-on-os-x-with-homebrew/#disqus_thread">Comments</a></span>
+		
+	</div>
+	<h1 class="title" itemprop="name"><a href="/blog/2014/08/06/install-r-programming-language-on-os-x-with-homebrew/" itemprop="url">Install R Programming Language on OS X With Homebrew</a></h1>
+	<div class="entry-content" itemprop="articleBody">
+		<h2>R</h2>
+
+<p>First of all here is a small video with highlight of R</p>
+
+<p><video width='720' height='480' preload='none' controls poster=''><source src='https://www.youtube.com/watch?v=TR2bHSJ_eck' ></video></p>
+
+<h2>Installation</h2>
+
+<p>First of all, prerequisites for installing R with homebrew is XQuartz and homebrew itself. You can find XQuartz <a href="http://xquartz.macosforge.org">here</a>.</p>
+
+<p>The installation itself is just couple of lines:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+</pre></td><td class='code'><pre><code class='bash'><span class='line'>brew update
+</span><span class='line'>brew tap homebrew/science
+</span><span class='line'>brew install gcc r
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>That&rsquo;s it, to test your environment just type <code>r</code> in the terminal and you will be prompted to r shell. To quit it use <code>q()</code> command.
+If you are using zsh shell you also need to disable binding for r(by default it&rsquo;s mapped for repeating last command). You can do so by adding <code>disable r</code> line to the <code>.zshrc</code> file.</p>
+
+		
+		
+	</div>
+
+</article>
+
+
+    <article class="post" itemprop="blogPost" itemscope itemtype="http://schema.org/BlogPosting">
+	<div class="meta">
+		<div class="date">
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2013-10-01T14:15:00+04:00" data-updated="true" itemprop="datePublished">Oct 1<span>st</span>, 2013</time></div>
+		<div class="tags">
+
+
+	<a class='category' href='/blog/categories/faraday/'>Faraday</a>, <a class='category' href='/blog/categories/middleware/'>Middleware</a>, <a class='category' href='/blog/categories/rails/'>Rails</a>, <a class='category' href='/blog/categories/ruby/'>Ruby</a>
+
+
+</div>
+		
+			<span class="comments"><a href="/blog/2013/10/01/track-request-time-with-the-faraday/#disqus_thread">Comments</a></span>
+		
+	</div>
+	<h1 class="title" itemprop="name"><a href="/blog/2013/10/01/track-request-time-with-the-faraday/" itemprop="url">Track Request Time With the Faraday</a></h1>
+	<div class="entry-content" itemprop="articleBody">
+		<p>I&rsquo;m frequently find myself in need to measure request time of remote request from my application to an API or service. Previously, i used simple block of ruby code with <code>start_time</code> and <code>end_time</code>. Finally i decided to find out more robust method of doing so. I&rsquo;m using <code>faraday</code> gem for remote requests, because it&rsquo;s easy extendable by middlewares and great overall. You can take a look at the project with collection of middlewares for faraday on <a href="https://github.com/lostisland/faraday_middleware">github</a>. This project contains <code>Instrumentation</code> middleware that we will use for tracking time of our request.</p>
+
+<p>Before we start, here is an image of Dr. Faraday from LOST:</p>
+
+<p><img class="center" src="/images/posts/faraday-lost.jpg" title="'Faraday'" ></p>
+
+<p>By the way github handle of faraday author is @<strong>lost</strong>island. Coincidence? I don&rsquo;t think so :)</p>
+
+
+		
+		<a href="/blog/2013/10/01/track-request-time-with-the-faraday/" class="more-link">Read on &rarr;</a>
+	</div>
+
+</article>
+
+
+    <article class="post" itemprop="blogPost" itemscope itemtype="http://schema.org/BlogPosting">
+	<div class="meta">
+		<div class="date">
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2013-07-26T18:34:00+04:00" data-updated="true" itemprop="datePublished">Jul 26<span>th</span>, 2013</time></div>
+		<div class="tags">
+
+
+	<a class='category' href='/blog/categories/ci/'>CI</a>, <a class='category' href='/blog/categories/cucumber/'>Cucumber</a>, <a class='category' href='/blog/categories/jenkins/'>Jenkins</a>, <a class='category' href='/blog/categories/rspec/'>RSpec</a>, <a class='category' href='/blog/categories/rails/'>Rails</a>, <a class='category' href='/blog/categories/ruby/'>Ruby</a>, <a class='category' href='/blog/categories/ubnutu/'>Ubnutu</a>
+
+
+</div>
+		
+			<span class="comments"><a href="/blog/2013/07/26/install-jenkins-ci-for-rails-project-with-cucumber/#disqus_thread">Comments</a></span>
+		
+	</div>
+	<h1 class="title" itemprop="name"><a href="/blog/2013/07/26/install-jenkins-ci-for-rails-project-with-cucumber/" itemprop="url">Install Jenkins CI for Rails Project With Cucumber</a></h1>
+	<div class="entry-content" itemprop="articleBody">
+		<h2>Jenkins</h2>
+
+<p><img class="right" src="/images/posts/jenkins_logo.png" title="'Jenkins logo'" >
+This is a short guide on how to setup Jenkins(Hudson) for Rails project with cucumber features. The steps are described for Ubuntu machine. First of all &ndash; what is Jenkins?</p>
+
+<p>Jenkins is an award-winning application that monitors executions of repeated jobs, such as building a software project or jobs run by cron. Among those things, current Jenkins focuses on the following two jobs:</p>
+
+<ul>
+<li>Building/testing software projects continuously, just like CruiseControl or DamageControl. In a nutshell, Jenkins provides an easy-to-use so-called continuous integration system, making it easier for developers to integrate changes to the project, and making it easier for users to obtain a fresh build. The automated, continuous build increases the productivity.</li>
+<li>Monitoring executions of externally-run jobs, such as cron jobs and procmail jobs, even those that are run on a remote machine. For example, with cron, all you receive is regular e-mails that capture the output, and it is up to you to look at them diligently and notice when it broke. Jenkins keeps those outputs and makes it easy for you to notice when something is wrong.</li>
+</ul>
+
+
+<p>Let&rsquo;s install Jenkins with following commands:</p>
+
+
+		
+		<a href="/blog/2013/07/26/install-jenkins-ci-for-rails-project-with-cucumber/" class="more-link">Read on &rarr;</a>
+	</div>
+
+</article>
+
+
+    <article class="post" itemprop="blogPost" itemscope itemtype="http://schema.org/BlogPosting">
+	<div class="meta">
+		<div class="date">
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2013-06-25T14:42:00+04:00" data-updated="true" itemprop="datePublished">Jun 25<span>th</span>, 2013</time></div>
+		<div class="tags">
+
+
+	<a class='category' href='/blog/categories/faraday/'>Faraday</a>, <a class='category' href='/blog/categories/middleware/'>Middleware</a>, <a class='category' href='/blog/categories/rails/'>Rails</a>, <a class='category' href='/blog/categories/ruby/'>Ruby</a>
+
+
+</div>
+		
+			<span class="comments"><a href="/blog/2013/06/25/faraday-using-backup-host-for-remote-request/#disqus_thread">Comments</a></span>
+		
+	</div>
+	<h1 class="title" itemprop="name"><a href="/blog/2013/06/25/faraday-using-backup-host-for-remote-request/" itemprop="url">Faraday - Using Backup Host for Remote Requests</a></h1>
+	<div class="entry-content" itemprop="articleBody">
+		<p>Nowadays almost every Rails application interact with the remote service or API. The problem is that you can&rsquo;t fully trust those services and you forced to add a lot of test coverage and exception handling for this part of code. Once i worked with the API that had mirror server for case when the main one is unavailable. I write a middleware for <a href="https://github.com/lostisland/faraday">Faraday</a>, which will use backup host(provided by user) if the original one is unresponsive.</p>
+
+
+		
+		<a href="/blog/2013/06/25/faraday-using-backup-host-for-remote-request/" class="more-link">Read on &rarr;</a>
+	</div>
+
+</article>
+
+
+    <article class="post" itemprop="blogPost" itemscope itemtype="http://schema.org/BlogPosting">
+	<div class="meta">
+		<div class="date">
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2013-06-21T16:22:00+04:00" data-updated="true" itemprop="datePublished">Jun 21<span>st</span>, 2013</time></div>
+		<div class="tags">
+
+
+	<a class='category' href='/blog/categories/databases/'>Databases</a>, <a class='category' href='/blog/categories/mysql/'>MySQL</a>, <a class='category' href='/blog/categories/rails/'>Rails</a>, <a class='category' href='/blog/categories/ruby/'>Ruby</a>
+
+
+</div>
+		
+			<span class="comments"><a href="/blog/2013/06/21/connecting-rails-project-with-multiple-databases/#disqus_thread">Comments</a></span>
+		
+	</div>
+	<h1 class="title" itemprop="name"><a href="/blog/2013/06/21/connecting-rails-project-with-multiple-databases/" itemprop="url">Connecting Rails Project With Multiple Databases</a></h1>
+	<div class="entry-content" itemprop="articleBody">
+		<p>I want to share my experience with multiple database and Rails 3.2 application. Today on one of my project i was in need to implement support ticketing system. Database for this system was already working for a good amount of time, so i was forced to use it as a source. So let&rsquo;s start, first of all we should create base class in the <code>/app/models/</code>, so we can inherit models, that will use external database as source.</p>
+
+<figure class='code'><figcaption><span>app/models/support_base.rb </span></figcaption>
+ <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+</pre></td><td class='code'><pre><code class='rb'><span class='line'><span class="k">class</span> <span class="nc">SupportBase</span> <span class="o">&lt;</span> <span class="ss">ActiveRecord</span><span class="p">:</span><span class="ss">:Base</span>
+</span><span class='line'>
+</span><span class='line'>  <span class="nb">self</span><span class="o">.</span><span class="n">abstract_class</span> <span class="o">=</span> <span class="kp">true</span>
+</span><span class='line'>
+</span><span class='line'>  <span class="n">databases</span> <span class="o">=</span> <span class="ss">YAML</span><span class="p">:</span><span class="ss">:load</span><span class="p">(</span><span class="no">IO</span><span class="o">.</span><span class="n">read</span><span class="p">(</span><span class="s1">&#39;config/database_support.yml&#39;</span><span class="p">))</span>
+</span><span class='line'>  <span class="n">establish_connection</span><span class="p">(</span><span class="n">databases</span><span class="o">[</span><span class="no">Rails</span><span class="o">.</span><span class="n">env</span><span class="o">]</span><span class="p">)</span>
+</span><span class='line'>
+</span><span class='line'><span class="k">end</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+
+
+
+		
+		<a href="/blog/2013/06/21/connecting-rails-project-with-multiple-databases/" class="more-link">Read on &rarr;</a>
+	</div>
+
+</article>
+
+</div>
+<nav id="pagenavi">
+    
+    
+    <div class="center"><a href="/blog/archives">Blog Archives</a></div>
+</nav></div>
+			</div>
+			<footer id="footer" class="inner"><p>
+  Copyright &copy; 2014 - Mikhail Nikalyukin -
+  <span class="credit">Powered by <a href="http://octopress.org">Octopress</a></span>
+</p>
+</footer>
+			<script src="/javascripts/slash.js"></script>
+<script src="/javascripts/jquery.fancybox.pack.js"></script>
+<script type="text/javascript">
+(function($){
+	$('.fancybox').fancybox();
+})(jQuery);
+</script> <!-- Delete or comment this line to disable Fancybox -->
+
+
+<script type="text/javascript">
+      var disqus_shortname = 'nikalyukin';
+      
+        
+        var disqus_script = 'count.js';
+      
+    (function () {
+      var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+      dsq.src = 'http://' + disqus_shortname + '.disqus.com/' + disqus_script;
+      (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+    }());
+</script>
+
+
+
+	<script type="text/javascript">
+		var _gaq = _gaq || [];
+		_gaq.push(['_setAccount', 'UA-25441493-4']);
+		_gaq.push(['_trackPageview']);
+
+		(function() {
+			var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+			ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+			var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+		})();
+	</script>
+
+
+<!-- Yandex.Metrika counter --><script type="text/javascript">(function (d, w, c) { (w[c] = w[c] || []).push(function() { try { w.yaCounter22477930 = new Ya.Metrika({id:22477930, webvisor:true, clickmap:true, trackLinks:true, accurateTrackBounce:true}); } catch(e) { } }); var n = d.getElementsByTagName("script")[0], s = d.createElement("script"), f = function () { n.parentNode.insertBefore(s, n); }; s.type = "text/javascript"; s.async = true; s.src = (d.location.protocol == "https:" ? "https:" : "http:") + "//mc.yandex.ru/metrika/watch.js"; if (w.opera == "[object Opera]") { d.addEventListener("DOMContentLoaded", f, false); } else { f(); } })(document, window, "yandex_metrika_callbacks");</script><noscript><div><img src="//mc.yandex.ru/watch/22477930" style="position:absolute; left:-9999px;" alt="" /></div></noscript><!-- /Yandex.Metrika counter -->
+
+
+		</div>
+	</div>
+</body>
+</html>

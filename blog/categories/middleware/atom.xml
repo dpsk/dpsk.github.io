@@ -1,0 +1,216 @@
+<?xml version="1.0" encoding="utf-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom">
+
+  <title><![CDATA[Category: Middleware | Mikhail Nikalyukin]]></title>
+  <link href="http://nikalyuk.in/blog/categories/middleware/atom.xml" rel="self"/>
+  <link href="http://nikalyuk.in/"/>
+  <updated>2014-08-06T13:38:30+04:00</updated>
+  <id>http://nikalyuk.in/</id>
+  <author>
+    <name><![CDATA[Mikhail Nikalyukin]]></name>
+    <email><![CDATA[idups1k@gmail.com]]></email>
+  </author>
+  <generator uri="http://octopress.org/">Octopress</generator>
+
+  
+  <entry>
+    <title type="html"><![CDATA[Track request time with the Faraday]]></title>
+    <link href="http://nikalyuk.in/blog/2013/10/01/track-request-time-with-the-faraday/"/>
+    <updated>2013-10-01T14:15:00+04:00</updated>
+    <id>http://nikalyuk.in/blog/2013/10/01/track-request-time-with-the-faraday</id>
+    <content type="html"><![CDATA[<p>I&rsquo;m frequently find myself in need to measure request time of remote request from my application to an API or service. Previously, i used simple block of ruby code with <code>start_time</code> and <code>end_time</code>. Finally i decided to find out more robust method of doing so. I&rsquo;m using <code>faraday</code> gem for remote requests, because it&rsquo;s easy extendable by middlewares and great overall. You can take a look at the project with collection of middlewares for faraday on <a href="https://github.com/lostisland/faraday_middleware">github</a>. This project contains <code>Instrumentation</code> middleware that we will use for tracking time of our request.</p>
+
+<p>Before we start, here is an image of Dr. Faraday from LOST:</p>
+
+<p><img class="center" src="/images/posts/faraday-lost.jpg" title="&lsquo;Faraday&rsquo;" ></p>
+
+<p>By the way github handle of faraday author is @<strong>lost</strong>island. Coincidence? I don&rsquo;t think so :)</p>
+
+<!--more-->
+
+
+<p>To the work! Let&rsquo;s look inside the <a href="https://github.com/lostisland/faraday_middleware/blob/master/lib/faraday_middleware/instrumentation.rb">instrumentation middleware</a>:
+<div class='bogus-wrapper'><notextile><figure class='code'><figcaption><span>instrumentation.rb </span></figcaption>
+ <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+</pre></td><td class='code'><pre><code class='rb'><span class='line'><span class="k">module</span> <span class="nn">FaradayMiddleware</span>
+</span><span class='line'>  <span class="k">class</span> <span class="nc">Instrumentation</span> <span class="o">&amp;</span><span class="n">lt</span><span class="p">;</span> <span class="ss">Faraday</span><span class="p">:</span><span class="ss">:Middleware</span><span class="o">&lt;</span><span class="sr">/p&gt;</span>
+</span><span class='line'>
+</span><span class='line'><span class="sr">&lt;pre&gt;&lt;code&gt;dependency &#39;active_support/no</span><span class="n">tifications</span><span class="s1">&#39;</span>
+</span><span class='line'>
+</span><span class='line'><span class="s1">def initialize(app, options = {})</span>
+</span><span class='line'><span class="s1">  super(app)</span>
+</span><span class='line'><span class="s1">  @name = options.fetch(:name, &#39;</span><span class="n">request</span><span class="o">.</span><span class="n">faraday</span><span class="err">&#39;</span><span class="p">)</span>
+</span><span class='line'><span class="k">end</span>
+</span><span class='line'>
+</span><span class='line'><span class="k">def</span> <span class="nf">call</span><span class="p">(</span><span class="n">env</span><span class="p">)</span>
+</span><span class='line'>  <span class="ss">ActiveSupport</span><span class="p">:</span><span class="ss">:Notifications</span><span class="o">.</span><span class="n">instrument</span><span class="p">(</span><span class="vi">@name</span><span class="p">,</span> <span class="n">env</span><span class="p">)</span> <span class="k">do</span>
+</span><span class='line'>    <span class="vi">@app</span><span class="o">.</span><span class="n">call</span><span class="p">(</span><span class="n">env</span><span class="p">)</span>
+</span><span class='line'>  <span class="k">end</span>
+</span><span class='line'><span class="k">end</span>
+</span><span class='line'><span class="o">&lt;</span><span class="sr">/code&gt;&lt;/</span><span class="n">pre</span><span class="o">&gt;</span>
+</span><span class='line'>
+</span><span class='line'><span class="o">&lt;</span><span class="nb">p</span><span class="o">&gt;</span>  <span class="k">end</span>
+</span><span class='line'><span class="k">end</span>
+</span></code></pre></td></tr></table></div></figure></notextile></div>
+Pretty straightforward, we just instrument event <code>'request.faraday'</code>. If you are not familiar with the <code>ActiveSupport::Notifications</code> mechanism you can read about it <a href="http://api.rubyonrails.org/classes/ActiveSupport/Notifications.html">here</a>.</p>
+
+<p>We should add this middleware to our faraday connection object:</p>
+
+<p><div class='bogus-wrapper'><notextile><figure class='code'><figcaption><span>faraday_connection_example.rb </span></figcaption>
+ <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+</pre></td><td class='code'><pre><code class='rb'><span class='line'>  <span class="k">def</span> <span class="nf">connection</span><span class="o">&lt;</span><span class="sr">/p&gt;</span>
+</span><span class='line'>
+</span><span class='line'><span class="sr">&lt;pre&gt;&lt;code&gt;Faraday.new(url: &quot;http:/</span><span class="o">/</span><span class="n">google</span><span class="o">.</span><span class="n">com</span><span class="s2">&quot;) do |faraday|</span>
+</span><span class='line'><span class="s2">  faraday.use FaradayMiddleware::Instrumentation</span>
+</span><span class='line'><span class="s2">  faraday.adapter  Faraday.default_adapter</span>
+</span><span class='line'><span class="s2">  faraday.response :logger</span>
+</span><span class='line'><span class="s2">end</span>
+</span><span class='line'><span class="s2">&lt;/code&gt;&lt;/pre&gt;</span>
+</span><span class='line'>
+</span><span class='line'><span class="s2">&lt;p&gt;  end</span>
+</span></code></pre></td></tr></table></div></figure></notextile></div></p>
+
+<p>Let&rsquo;s subscribe to the <code>request.faraday</code> events with the <code>ActiveSupport::Notifications</code>. You can execute any code inside your subscribe block, save information and time to the file or database for example. I will use rails logger in my example:</p>
+
+<p><div class='bogus-wrapper'><notextile><figure class='code'><figcaption><span>config/initializers/notifications.rb </span></figcaption>
+ <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="ss">ActiveSupport</span><span class="p">:</span><span class="ss">:Notifications</span><span class="o">.</span><span class="n">subscribe</span><span class="p">(</span><span class="o">&amp;</span><span class="n">lsquo</span><span class="p">;</span><span class="n">request</span><span class="o">.</span><span class="n">faraday</span><span class="o">&amp;</span><span class="n">rsquo</span><span class="p">;)</span> <span class="k">do</span> <span class="o">|</span><span class="nb">name</span><span class="p">,</span> <span class="n">starts</span><span class="p">,</span> <span class="n">ends</span><span class="p">,</span> <span class="n">_</span><span class="p">,</span> <span class="n">env</span><span class="o">|</span>
+</span><span class='line'>  <span class="n">url</span> <span class="o">=</span> <span class="n">env</span><span class="o">[</span><span class="ss">:url</span><span class="o">]</span>
+</span><span class='line'>  <span class="n">http_method</span> <span class="o">=</span> <span class="n">env</span><span class="o">[</span><span class="ss">:method</span><span class="o">].</span><span class="n">to_s</span><span class="o">.</span><span class="n">upcase</span>
+</span><span class='line'>  <span class="n">duration</span> <span class="o">=</span> <span class="n">ends</span> <span class="o">&amp;</span><span class="n">ndash</span><span class="p">;</span> <span class="n">starts</span>
+</span><span class='line'>  <span class="no">Rails</span><span class="o">.</span><span class="n">logger</span><span class="o">.</span><span class="n">info</span> <span class="o">&amp;</span><span class="n">ldquo</span><span class="p">;</span><span class="c1">#{url.host}, #{http_method}, #{url.request_uri}, takes #{duration} seconds&amp;rdquo;</span>
+</span><span class='line'><span class="k">end</span>
+</span></code></pre></td></tr></table></div></figure></notextile></div></p>
+
+<p>That&rsquo;s all, you are set and ready, whenever your application will send any request with the faraday connection, it will print request time information to your log file.</p>
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[Faraday - using backup host for remote requests]]></title>
+    <link href="http://nikalyuk.in/blog/2013/06/25/faraday-using-backup-host-for-remote-request/"/>
+    <updated>2013-06-25T14:42:00+04:00</updated>
+    <id>http://nikalyuk.in/blog/2013/06/25/faraday-using-backup-host-for-remote-request</id>
+    <content type="html"><![CDATA[<p>Nowadays almost every Rails application interact with the remote service or API. The problem is that you can&rsquo;t fully trust those services and you forced to add a lot of test coverage and exception handling for this part of code. Once i worked with the API that had mirror server for case when the main one is unavailable. I write a middleware for <a href="https://github.com/lostisland/faraday">Faraday</a>, which will use backup host(provided by user) if the original one is unresponsive.</p>
+
+<!--more-->
+
+
+<p>First of all, what is Faraday? It&rsquo;s an awesome HTTP client library that provides a common interface over many adapters (such as Net::HTTP) and embraces the concept of Rack middleware when processing the request/response cycle. Middleware are classes that implement a call instance method. They hook into the request/response cycle. Our middleware will be hooked to the request cycle.</p>
+
+<p>Now to our middleware. All we need from it is simple checking for errors, such as <code>Faraday::Error::TimeoutError</code> or <code>Faraday::ConnectionFailed</code>. If some errors from the list were araised, than we should switch request to the backup server. So let&rsquo;s jump to the code:
+<div class='bogus-wrapper'><notextile><figure class='code'><figcaption><span>host_backup.rb </span></figcaption>
+ <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+</pre></td><td class='code'><pre><code class='rb'><span class='line'><span class="k">def</span> <span class="nf">call</span><span class="p">(</span><span class="n">env</span><span class="p">)</span>
+</span><span class='line'>  <span class="k">begin</span><span class="o">&lt;</span><span class="sr">/p&gt;</span>
+</span><span class='line'>
+</span><span class='line'><span class="sr">&lt;pre&gt;&lt;code&gt;@app.call(env)</span>
+</span><span class='line'><span class="sr">&lt;/</span><span class="n">code</span><span class="o">&gt;&lt;</span><span class="sr">/pre&gt;</span>
+</span><span class='line'>
+</span><span class='line'><span class="sr">&lt;p&gt;  rescue @errmatch&lt;/</span><span class="nb">p</span><span class="o">&gt;</span>
+</span><span class='line'>
+</span><span class='line'><span class="o">&lt;</span><span class="n">pre</span><span class="o">&gt;&lt;</span><span class="n">code</span><span class="o">&gt;</span><span class="k">unless</span> <span class="n">env</span><span class="o">[</span><span class="ss">:url</span><span class="o">].</span><span class="n">host</span> <span class="o">==</span> <span class="vi">@options</span><span class="o">.</span><span class="n">host</span>
+</span><span class='line'>  <span class="n">env</span><span class="o">[</span><span class="ss">:url</span><span class="o">].</span><span class="n">host</span> <span class="o">=</span> <span class="vi">@options</span><span class="o">.</span><span class="n">host</span>
+</span><span class='line'>  <span class="k">retry</span>
+</span><span class='line'><span class="k">end</span>
+</span><span class='line'>
+</span><span class='line'><span class="k">raise</span>
+</span><span class='line'><span class="o">&lt;</span><span class="sr">/code&gt;&lt;/</span><span class="n">pre</span><span class="o">&gt;</span>
+</span><span class='line'>
+</span><span class='line'><span class="o">&lt;</span><span class="nb">p</span><span class="o">&gt;</span>  <span class="k">end</span>
+</span><span class='line'><span class="k">end</span>
+</span></code></pre></td></tr></table></div></figure></notextile></div>
+<code>call</code> is the main method for almost every faraday middleware. Here we just trying to catch any exception from the list, and switch the url of request if the exception was raised.</p>
+
+<p>You can pass exception that you want to the <code>@errmatch</code> list. Here is the list of defaults:</p>
+
+<p><div class='bogus-wrapper'><notextile><figure class='code'><figcaption><span>host_backup.rb </span></figcaption>
+ <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+</pre></td><td class='code'><pre><code class='rb'><span class='line'><span class="k">def</span> <span class="nf">exceptions</span>
+</span><span class='line'> <span class="nb">Array</span><span class="p">(</span><span class="nb">self</span><span class="o">[</span><span class="ss">:exceptions</span><span class="o">]</span> <span class="o">||=</span> <span class="o">[</span><span class="ss">Errno</span><span class="p">:</span><span class="ss">:ETIMEDOUT</span><span class="p">,</span> <span class="o">&amp;</span><span class="n">lsquo</span><span class="p">;</span><span class="ss">Timeout</span><span class="p">:</span><span class="ss">:Error</span><span class="o">&amp;</span><span class="n">rsquo</span><span class="p">;,</span><span class="o">&lt;</span><span class="sr">/p&gt;</span>
+</span><span class='line'>
+</span><span class='line'><span class="sr">&lt;pre&gt;&lt;code&gt;                         Faraday::ConnectionFailed, Faraday::Error::TimeoutError])</span>
+</span><span class='line'><span class="sr">&lt;/</span><span class="n">code</span><span class="o">&gt;&lt;</span><span class="sr">/pre&gt;</span>
+</span><span class='line'>
+</span><span class='line'><span class="sr">&lt;p&gt;end</span>
+</span></code></pre></td></tr></table></div></figure></notextile></div></p>
+
+<p>In the end you can use this middleware like this:
+<div class='bogus-wrapper'><notextile><figure class='code'> <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="no">Faraday</span><span class="o">.</span><span class="n">new</span> <span class="k">do</span> <span class="o">|</span><span class="n">conn</span><span class="o">|</span>
+</span><span class='line'>  <span class="n">conn</span><span class="o">.</span><span class="n">use</span> <span class="ss">FaradayMiddleware</span><span class="p">:</span><span class="ss">:HostBackup</span><span class="p">,</span> <span class="ss">host</span><span class="p">:</span> <span class="o">&amp;</span><span class="n">ldquo</span><span class="p">;</span><span class="n">backup</span><span class="o">-</span><span class="n">service</span><span class="o">.</span><span class="n">com</span><span class="o">&amp;</span><span class="n">rdquo</span><span class="p">;,</span><span class="o">&lt;</span><span class="sr">/p&gt;</span>
+</span><span class='line'>
+</span><span class='line'><span class="sr">&lt;pre&gt;&lt;code&gt;                                      exceptions: [CustomException, &#39;Timeout::Error&#39;]</span>
+</span><span class='line'><span class="sr">&lt;/</span><span class="n">code</span><span class="o">&gt;&lt;</span><span class="sr">/pre&gt;</span>
+</span><span class='line'>
+</span><span class='line'><span class="sr">&lt;p&gt;  conn.adapter &amp;hellip;</span>
+</span><span class='line'><span class="sr">end</span>
+</span></code></pre></td></tr></table></div></figure></notextile></div></p>
+
+<p>You can grab this middleware from my <a href="https://github.com/dpsk/faraday_middleware/blob/22304990ca7c439cba23fd04d0b100d2fb221f34/lib/faraday_middleware/request/host_backup.rb">repository</a>.</p>
+]]></content>
+  </entry>
+  
+</feed>

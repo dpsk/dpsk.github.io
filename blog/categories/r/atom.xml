@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="utf-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom">
+
+  <title><![CDATA[Category: R | Mikhail Nikalyukin]]></title>
+  <link href="http://nikalyuk.in/blog/categories/r/atom.xml" rel="self"/>
+  <link href="http://nikalyuk.in/"/>
+  <updated>2014-08-06T13:38:30+04:00</updated>
+  <id>http://nikalyuk.in/</id>
+  <author>
+    <name><![CDATA[Mikhail Nikalyukin]]></name>
+    <email><![CDATA[idups1k@gmail.com]]></email>
+  </author>
+  <generator uri="http://octopress.org/">Octopress</generator>
+
+  
+  <entry>
+    <title type="html"><![CDATA[Install R programming language on OS X with Homebrew]]></title>
+    <link href="http://nikalyuk.in/blog/2014/08/06/install-r-programming-language-on-os-x-with-homebrew/"/>
+    <updated>2014-08-06T13:25:00+04:00</updated>
+    <id>http://nikalyuk.in/blog/2014/08/06/install-r-programming-language-on-os-x-with-homebrew</id>
+    <content type="html"><![CDATA[<h2>R</h2>
+
+<p>First of all here is a small video with highlight of R</p>
+
+<p><video width='720' height='480' preload='none' controls poster=''><source src='https://www.youtube.com/watch?v=TR2bHSJ_eck">https://www.youtube.com/watch?v=TR2bHSJ_eck</a>' ></video></p>
+
+<h2>Installation</h2>
+
+<p>First of all, prerequisites for installing R with homebrew is XQuartz and homebrew itself. You can find XQuartz <a href="http://xquartz.macosforge.org">here</a>.</p>
+
+<p>The installation itself is just couple of lines:</p>
+
+<p><code>bash
+brew update
+brew tap homebrew/science
+brew install gcc r
+</code></p>
+
+<p>That&rsquo;s it, to test your environment just type <code>r</code> in the terminal and you will be prompted to r shell. To quit it use <code>q()</code> command.
+If you are using zsh shell you also need to disable binding for r(by default it&rsquo;s mapped for repeating last command). You can do so by adding <code>disable r</code> line to the <code>.zshrc</code> file.</p>
+]]></content>
+  </entry>
+  
+</feed>

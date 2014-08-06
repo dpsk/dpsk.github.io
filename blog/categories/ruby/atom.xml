@@ -1,0 +1,553 @@
+<?xml version="1.0" encoding="utf-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom">
+
+  <title><![CDATA[Category: Ruby | Mikhail Nikalyukin]]></title>
+  <link href="http://nikalyuk.in/blog/categories/ruby/atom.xml" rel="self"/>
+  <link href="http://nikalyuk.in/"/>
+  <updated>2014-08-06T13:38:30+04:00</updated>
+  <id>http://nikalyuk.in/</id>
+  <author>
+    <name><![CDATA[Mikhail Nikalyukin]]></name>
+    <email><![CDATA[idups1k@gmail.com]]></email>
+  </author>
+  <generator uri="http://octopress.org/">Octopress</generator>
+
+  
+  <entry>
+    <title type="html"><![CDATA[Track request time with the Faraday]]></title>
+    <link href="http://nikalyuk.in/blog/2013/10/01/track-request-time-with-the-faraday/"/>
+    <updated>2013-10-01T14:15:00+04:00</updated>
+    <id>http://nikalyuk.in/blog/2013/10/01/track-request-time-with-the-faraday</id>
+    <content type="html"><![CDATA[<p>I&rsquo;m frequently find myself in need to measure request time of remote request from my application to an API or service. Previously, i used simple block of ruby code with <code>start_time</code> and <code>end_time</code>. Finally i decided to find out more robust method of doing so. I&rsquo;m using <code>faraday</code> gem for remote requests, because it&rsquo;s easy extendable by middlewares and great overall. You can take a look at the project with collection of middlewares for faraday on <a href="https://github.com/lostisland/faraday_middleware">github</a>. This project contains <code>Instrumentation</code> middleware that we will use for tracking time of our request.</p>
+
+<p>Before we start, here is an image of Dr. Faraday from LOST:</p>
+
+<p><img class="center" src="/images/posts/faraday-lost.jpg" title="&lsquo;Faraday&rsquo;" ></p>
+
+<p>By the way github handle of faraday author is @<strong>lost</strong>island. Coincidence? I don&rsquo;t think so :)</p>
+
+<!--more-->
+
+
+<p>To the work! Let&rsquo;s look inside the <a href="https://github.com/lostisland/faraday_middleware/blob/master/lib/faraday_middleware/instrumentation.rb">instrumentation middleware</a>:
+<div class='bogus-wrapper'><notextile><figure class='code'><figcaption><span>instrumentation.rb </span></figcaption>
+ <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+</pre></td><td class='code'><pre><code class='rb'><span class='line'><span class="k">module</span> <span class="nn">FaradayMiddleware</span>
+</span><span class='line'>  <span class="k">class</span> <span class="nc">Instrumentation</span> <span class="o">&amp;</span><span class="n">lt</span><span class="p">;</span> <span class="ss">Faraday</span><span class="p">:</span><span class="ss">:Middleware</span><span class="o">&lt;</span><span class="sr">/p&gt;</span>
+</span><span class='line'>
+</span><span class='line'><span class="sr">&lt;pre&gt;&lt;code&gt;dependency &#39;active_support/no</span><span class="n">tifications</span><span class="s1">&#39;</span>
+</span><span class='line'>
+</span><span class='line'><span class="s1">def initialize(app, options = {})</span>
+</span><span class='line'><span class="s1">  super(app)</span>
+</span><span class='line'><span class="s1">  @name = options.fetch(:name, &#39;</span><span class="n">request</span><span class="o">.</span><span class="n">faraday</span><span class="err">&#39;</span><span class="p">)</span>
+</span><span class='line'><span class="k">end</span>
+</span><span class='line'>
+</span><span class='line'><span class="k">def</span> <span class="nf">call</span><span class="p">(</span><span class="n">env</span><span class="p">)</span>
+</span><span class='line'>  <span class="ss">ActiveSupport</span><span class="p">:</span><span class="ss">:Notifications</span><span class="o">.</span><span class="n">instrument</span><span class="p">(</span><span class="vi">@name</span><span class="p">,</span> <span class="n">env</span><span class="p">)</span> <span class="k">do</span>
+</span><span class='line'>    <span class="vi">@app</span><span class="o">.</span><span class="n">call</span><span class="p">(</span><span class="n">env</span><span class="p">)</span>
+</span><span class='line'>  <span class="k">end</span>
+</span><span class='line'><span class="k">end</span>
+</span><span class='line'><span class="o">&lt;</span><span class="sr">/code&gt;&lt;/</span><span class="n">pre</span><span class="o">&gt;</span>
+</span><span class='line'>
+</span><span class='line'><span class="o">&lt;</span><span class="nb">p</span><span class="o">&gt;</span>  <span class="k">end</span>
+</span><span class='line'><span class="k">end</span>
+</span></code></pre></td></tr></table></div></figure></notextile></div>
+Pretty straightforward, we just instrument event <code>'request.faraday'</code>. If you are not familiar with the <code>ActiveSupport::Notifications</code> mechanism you can read about it <a href="http://api.rubyonrails.org/classes/ActiveSupport/Notifications.html">here</a>.</p>
+
+<p>We should add this middleware to our faraday connection object:</p>
+
+<p><div class='bogus-wrapper'><notextile><figure class='code'><figcaption><span>faraday_connection_example.rb </span></figcaption>
+ <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+</pre></td><td class='code'><pre><code class='rb'><span class='line'>  <span class="k">def</span> <span class="nf">connection</span><span class="o">&lt;</span><span class="sr">/p&gt;</span>
+</span><span class='line'>
+</span><span class='line'><span class="sr">&lt;pre&gt;&lt;code&gt;Faraday.new(url: &quot;http:/</span><span class="o">/</span><span class="n">google</span><span class="o">.</span><span class="n">com</span><span class="s2">&quot;) do |faraday|</span>
+</span><span class='line'><span class="s2">  faraday.use FaradayMiddleware::Instrumentation</span>
+</span><span class='line'><span class="s2">  faraday.adapter  Faraday.default_adapter</span>
+</span><span class='line'><span class="s2">  faraday.response :logger</span>
+</span><span class='line'><span class="s2">end</span>
+</span><span class='line'><span class="s2">&lt;/code&gt;&lt;/pre&gt;</span>
+</span><span class='line'>
+</span><span class='line'><span class="s2">&lt;p&gt;  end</span>
+</span></code></pre></td></tr></table></div></figure></notextile></div></p>
+
+<p>Let&rsquo;s subscribe to the <code>request.faraday</code> events with the <code>ActiveSupport::Notifications</code>. You can execute any code inside your subscribe block, save information and time to the file or database for example. I will use rails logger in my example:</p>
+
+<p><div class='bogus-wrapper'><notextile><figure class='code'><figcaption><span>config/initializers/notifications.rb </span></figcaption>
+ <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="ss">ActiveSupport</span><span class="p">:</span><span class="ss">:Notifications</span><span class="o">.</span><span class="n">subscribe</span><span class="p">(</span><span class="o">&amp;</span><span class="n">lsquo</span><span class="p">;</span><span class="n">request</span><span class="o">.</span><span class="n">faraday</span><span class="o">&amp;</span><span class="n">rsquo</span><span class="p">;)</span> <span class="k">do</span> <span class="o">|</span><span class="nb">name</span><span class="p">,</span> <span class="n">starts</span><span class="p">,</span> <span class="n">ends</span><span class="p">,</span> <span class="n">_</span><span class="p">,</span> <span class="n">env</span><span class="o">|</span>
+</span><span class='line'>  <span class="n">url</span> <span class="o">=</span> <span class="n">env</span><span class="o">[</span><span class="ss">:url</span><span class="o">]</span>
+</span><span class='line'>  <span class="n">http_method</span> <span class="o">=</span> <span class="n">env</span><span class="o">[</span><span class="ss">:method</span><span class="o">].</span><span class="n">to_s</span><span class="o">.</span><span class="n">upcase</span>
+</span><span class='line'>  <span class="n">duration</span> <span class="o">=</span> <span class="n">ends</span> <span class="o">&amp;</span><span class="n">ndash</span><span class="p">;</span> <span class="n">starts</span>
+</span><span class='line'>  <span class="no">Rails</span><span class="o">.</span><span class="n">logger</span><span class="o">.</span><span class="n">info</span> <span class="o">&amp;</span><span class="n">ldquo</span><span class="p">;</span><span class="c1">#{url.host}, #{http_method}, #{url.request_uri}, takes #{duration} seconds&amp;rdquo;</span>
+</span><span class='line'><span class="k">end</span>
+</span></code></pre></td></tr></table></div></figure></notextile></div></p>
+
+<p>That&rsquo;s all, you are set and ready, whenever your application will send any request with the faraday connection, it will print request time information to your log file.</p>
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[Install Jenkins CI for Rails project with Cucumber]]></title>
+    <link href="http://nikalyuk.in/blog/2013/07/26/install-jenkins-ci-for-rails-project-with-cucumber/"/>
+    <updated>2013-07-26T18:34:00+04:00</updated>
+    <id>http://nikalyuk.in/blog/2013/07/26/install-jenkins-ci-for-rails-project-with-cucumber</id>
+    <content type="html"><![CDATA[<h2>Jenkins</h2>
+
+<p><img class="right" src="/images/posts/jenkins_logo.png" title="&lsquo;Jenkins logo&rsquo;" >
+This is a short guide on how to setup Jenkins(Hudson) for Rails project with cucumber features. The steps are described for Ubuntu machine. First of all &ndash; what is Jenkins?</p>
+
+<p>Jenkins is an award-winning application that monitors executions of repeated jobs, such as building a software project or jobs run by cron. Among those things, current Jenkins focuses on the following two jobs:</p>
+
+<ul>
+<li>Building/testing software projects continuously, just like CruiseControl or DamageControl. In a nutshell, Jenkins provides an easy-to-use so-called continuous integration system, making it easier for developers to integrate changes to the project, and making it easier for users to obtain a fresh build. The automated, continuous build increases the productivity.</li>
+<li>Monitoring executions of externally-run jobs, such as cron jobs and procmail jobs, even those that are run on a remote machine. For example, with cron, all you receive is regular e-mails that capture the output, and it is up to you to look at them diligently and notice when it broke. Jenkins keeps those outputs and makes it easy for you to notice when something is wrong.</li>
+</ul>
+
+
+<p>Let&rsquo;s install Jenkins with following commands:</p>
+
+<!--more-->
+
+
+<p><code>bash
+  wget -q -O - http://pkg.jenkins-ci.org/debian/jenkins-ci.org.key | sudo apt-key add -
+  sudo sh -c 'echo deb http://pkg.jenkins-ci.org/debian binary/ &gt; /etc/apt/sources.list.d/jenkins.list'
+  sudo apt-get update
+  sudo apt-get install jenkins
+</code></p>
+
+<p>From this point you can start jenkins like this:
+<code>
+sudo /etc/init.d/jenkins start
+</code></p>
+
+<h2>NGINX</h2>
+
+<p>Now we need to configure nginx for jenkins, the most basic setup will look like this:</p>
+
+<p>```
+upstream jenkins {
+  server 127.0.0.1:8080;
+}</p>
+
+<p>server {
+  listen 111.111.111.111:80;
+  server_name jenkins.project_name.com *.jenkins.project_name.com;</p>
+
+<p>  try_files $uri @jenkins;</p>
+
+<p>  location @jenkins {</p>
+
+<pre><code>  proxy_pass http://jenkins;
+  proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
+  proxy_set_header Host $http_host;
+  proxy_redirect off;
+</code></pre>
+
+<p>  }
+}
+```</p>
+
+<p>So now jenkins web interface is up and running at jenkins.project_name.com</p>
+
+<h2>Jenkins User</h2>
+
+<p>Jenkins using <code>jenkins</code> ubuntu user by default. We should add the pair of ssh keys to him, as well as install ruby. For this purposes login as jenkins
+<code>sudo su jenkins</code>. <code>ssh-keygen -t rsa</code> to generate ssh keys. Install ruby with rvm or your ruby version manager of choice. Also we should add name and email to git for jenkins. So the list of commands will be following:</p>
+
+<p><code>
+sudo su jenkins
+ssh-keygen -t rsa
+\curl -L https://get.rvm.io | bash -s stable --ruby
+echo "source $HOME/.rvm/scripts/rvm" &gt;&gt; ~/.bash_profile
+source ~/.bash_profile
+rvm install 1.9.3
+git config --global user.email "jenkins@example.com"
+git config --global user.name "Jenkins Hudson"
+</code></p>
+
+<h2>Jenkins Plugins</h2>
+
+<p>Now let&rsquo;s install some useful plugins for Jenkins. Go to the  <em>Manage Jenkins &ndash;> Manage Plugins</em> and check following plugins:</p>
+
+<ul>
+<li>Git Client Plugin</li>
+<li>GitHub Plugin</li>
+<li>Ruby Plugin</li>
+<li>Rake plugin</li>
+<li>Cucumber plugin</li>
+</ul>
+
+
+<h2>Add project to Jenkins</h2>
+
+<p>Now we a ready to add our project to Jenkins. Go to the <em>New Job &ndash;> Free-style</em> Navigate to <code>Source Code Management</code> menu and choose Git, enter your git repository address and specify the branch.</p>
+
+<p><img src="/images/posts/hudson_git.png" title="&lsquo;Jenkins Git options&rsquo; &lsquo;Jenkins Git options&rsquo;" ></p>
+
+<p>Now we only need to specify commands for building our project. Specify &ldquo;Execute shell script&rdquo; and add following commands, you may want to change them for your needs:</p>
+
+<p>```</p>
+
+<h1>!/bin/bash -x</h1>
+
+<p>source ~/.bash_profile
+rvm use 1.9.3
+bundle install
+cp config/database.yml.example database.yml
+rake db:test:prepare RAILS_ENV=test
+cucumber
+```</p>
+
+<p>You also may want to add some notifications, for my project i&rsquo;m using hipchat notification, but the most easiest solution to setup is email notifications. You will need to add SMTP settings in the <em>Manage Jenkins &ndash;> System Configurations &ndash;> E-mail Notification</em>. After that just specify emails in the project settings.</p>
+
+<p>If you want to run your rspec tests instead of cucumber, or run all together just change your build commands.</p>
+
+<p>That&rsquo;s all, you are ready to go!</p>
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[Faraday - using backup host for remote requests]]></title>
+    <link href="http://nikalyuk.in/blog/2013/06/25/faraday-using-backup-host-for-remote-request/"/>
+    <updated>2013-06-25T14:42:00+04:00</updated>
+    <id>http://nikalyuk.in/blog/2013/06/25/faraday-using-backup-host-for-remote-request</id>
+    <content type="html"><![CDATA[<p>Nowadays almost every Rails application interact with the remote service or API. The problem is that you can&rsquo;t fully trust those services and you forced to add a lot of test coverage and exception handling for this part of code. Once i worked with the API that had mirror server for case when the main one is unavailable. I write a middleware for <a href="https://github.com/lostisland/faraday">Faraday</a>, which will use backup host(provided by user) if the original one is unresponsive.</p>
+
+<!--more-->
+
+
+<p>First of all, what is Faraday? It&rsquo;s an awesome HTTP client library that provides a common interface over many adapters (such as Net::HTTP) and embraces the concept of Rack middleware when processing the request/response cycle. Middleware are classes that implement a call instance method. They hook into the request/response cycle. Our middleware will be hooked to the request cycle.</p>
+
+<p>Now to our middleware. All we need from it is simple checking for errors, such as <code>Faraday::Error::TimeoutError</code> or <code>Faraday::ConnectionFailed</code>. If some errors from the list were araised, than we should switch request to the backup server. So let&rsquo;s jump to the code:
+<div class='bogus-wrapper'><notextile><figure class='code'><figcaption><span>host_backup.rb </span></figcaption>
+ <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+</pre></td><td class='code'><pre><code class='rb'><span class='line'><span class="k">def</span> <span class="nf">call</span><span class="p">(</span><span class="n">env</span><span class="p">)</span>
+</span><span class='line'>  <span class="k">begin</span><span class="o">&lt;</span><span class="sr">/p&gt;</span>
+</span><span class='line'>
+</span><span class='line'><span class="sr">&lt;pre&gt;&lt;code&gt;@app.call(env)</span>
+</span><span class='line'><span class="sr">&lt;/</span><span class="n">code</span><span class="o">&gt;&lt;</span><span class="sr">/pre&gt;</span>
+</span><span class='line'>
+</span><span class='line'><span class="sr">&lt;p&gt;  rescue @errmatch&lt;/</span><span class="nb">p</span><span class="o">&gt;</span>
+</span><span class='line'>
+</span><span class='line'><span class="o">&lt;</span><span class="n">pre</span><span class="o">&gt;&lt;</span><span class="n">code</span><span class="o">&gt;</span><span class="k">unless</span> <span class="n">env</span><span class="o">[</span><span class="ss">:url</span><span class="o">].</span><span class="n">host</span> <span class="o">==</span> <span class="vi">@options</span><span class="o">.</span><span class="n">host</span>
+</span><span class='line'>  <span class="n">env</span><span class="o">[</span><span class="ss">:url</span><span class="o">].</span><span class="n">host</span> <span class="o">=</span> <span class="vi">@options</span><span class="o">.</span><span class="n">host</span>
+</span><span class='line'>  <span class="k">retry</span>
+</span><span class='line'><span class="k">end</span>
+</span><span class='line'>
+</span><span class='line'><span class="k">raise</span>
+</span><span class='line'><span class="o">&lt;</span><span class="sr">/code&gt;&lt;/</span><span class="n">pre</span><span class="o">&gt;</span>
+</span><span class='line'>
+</span><span class='line'><span class="o">&lt;</span><span class="nb">p</span><span class="o">&gt;</span>  <span class="k">end</span>
+</span><span class='line'><span class="k">end</span>
+</span></code></pre></td></tr></table></div></figure></notextile></div>
+<code>call</code> is the main method for almost every faraday middleware. Here we just trying to catch any exception from the list, and switch the url of request if the exception was raised.</p>
+
+<p>You can pass exception that you want to the <code>@errmatch</code> list. Here is the list of defaults:</p>
+
+<p><div class='bogus-wrapper'><notextile><figure class='code'><figcaption><span>host_backup.rb </span></figcaption>
+ <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+</pre></td><td class='code'><pre><code class='rb'><span class='line'><span class="k">def</span> <span class="nf">exceptions</span>
+</span><span class='line'> <span class="nb">Array</span><span class="p">(</span><span class="nb">self</span><span class="o">[</span><span class="ss">:exceptions</span><span class="o">]</span> <span class="o">||=</span> <span class="o">[</span><span class="ss">Errno</span><span class="p">:</span><span class="ss">:ETIMEDOUT</span><span class="p">,</span> <span class="o">&amp;</span><span class="n">lsquo</span><span class="p">;</span><span class="ss">Timeout</span><span class="p">:</span><span class="ss">:Error</span><span class="o">&amp;</span><span class="n">rsquo</span><span class="p">;,</span><span class="o">&lt;</span><span class="sr">/p&gt;</span>
+</span><span class='line'>
+</span><span class='line'><span class="sr">&lt;pre&gt;&lt;code&gt;                         Faraday::ConnectionFailed, Faraday::Error::TimeoutError])</span>
+</span><span class='line'><span class="sr">&lt;/</span><span class="n">code</span><span class="o">&gt;&lt;</span><span class="sr">/pre&gt;</span>
+</span><span class='line'>
+</span><span class='line'><span class="sr">&lt;p&gt;end</span>
+</span></code></pre></td></tr></table></div></figure></notextile></div></p>
+
+<p>In the end you can use this middleware like this:
+<div class='bogus-wrapper'><notextile><figure class='code'> <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="no">Faraday</span><span class="o">.</span><span class="n">new</span> <span class="k">do</span> <span class="o">|</span><span class="n">conn</span><span class="o">|</span>
+</span><span class='line'>  <span class="n">conn</span><span class="o">.</span><span class="n">use</span> <span class="ss">FaradayMiddleware</span><span class="p">:</span><span class="ss">:HostBackup</span><span class="p">,</span> <span class="ss">host</span><span class="p">:</span> <span class="o">&amp;</span><span class="n">ldquo</span><span class="p">;</span><span class="n">backup</span><span class="o">-</span><span class="n">service</span><span class="o">.</span><span class="n">com</span><span class="o">&amp;</span><span class="n">rdquo</span><span class="p">;,</span><span class="o">&lt;</span><span class="sr">/p&gt;</span>
+</span><span class='line'>
+</span><span class='line'><span class="sr">&lt;pre&gt;&lt;code&gt;                                      exceptions: [CustomException, &#39;Timeout::Error&#39;]</span>
+</span><span class='line'><span class="sr">&lt;/</span><span class="n">code</span><span class="o">&gt;&lt;</span><span class="sr">/pre&gt;</span>
+</span><span class='line'>
+</span><span class='line'><span class="sr">&lt;p&gt;  conn.adapter &amp;hellip;</span>
+</span><span class='line'><span class="sr">end</span>
+</span></code></pre></td></tr></table></div></figure></notextile></div></p>
+
+<p>You can grab this middleware from my <a href="https://github.com/dpsk/faraday_middleware/blob/22304990ca7c439cba23fd04d0b100d2fb221f34/lib/faraday_middleware/request/host_backup.rb">repository</a>.</p>
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[Connecting rails project with multiple databases]]></title>
+    <link href="http://nikalyuk.in/blog/2013/06/21/connecting-rails-project-with-multiple-databases/"/>
+    <updated>2013-06-21T16:22:00+04:00</updated>
+    <id>http://nikalyuk.in/blog/2013/06/21/connecting-rails-project-with-multiple-databases</id>
+    <content type="html"><![CDATA[<p>I want to share my experience with multiple database and Rails 3.2 application. Today on one of my project i was in need to implement support ticketing system. Database for this system was already working for a good amount of time, so i was forced to use it as a source. So let&rsquo;s start, first of all we should create base class in the <code>/app/models/</code>, so we can inherit models, that will use external database as source.
+<div class='bogus-wrapper'><notextile><figure class='code'><figcaption><span>app/models/support_base.rb </span></figcaption>
+ <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+</pre></td><td class='code'><pre><code class='rb'><span class='line'><span class="k">class</span> <span class="nc">SupportBase</span> <span class="o">&amp;</span><span class="n">lt</span><span class="p">;</span> <span class="ss">ActiveRecord</span><span class="p">:</span><span class="ss">:Base</span><span class="o">&lt;</span><span class="sr">/p&gt;</span>
+</span><span class='line'>
+</span><span class='line'><span class="sr">&lt;p&gt;  self.abstract_class = true&lt;/</span><span class="nb">p</span><span class="o">&gt;</span>
+</span><span class='line'>
+</span><span class='line'><span class="o">&lt;</span><span class="nb">p</span><span class="o">&gt;</span>  <span class="n">databases</span> <span class="o">=</span> <span class="ss">YAML</span><span class="p">:</span><span class="ss">:load</span><span class="p">(</span><span class="no">IO</span><span class="o">.</span><span class="n">read</span><span class="p">(</span><span class="o">&amp;</span><span class="n">lsquo</span><span class="p">;</span><span class="n">config</span><span class="o">/</span><span class="n">database_support</span><span class="o">.</span><span class="n">yml</span><span class="o">&amp;</span><span class="n">rsquo</span><span class="p">;))</span>
+</span><span class='line'>  <span class="n">establish_connection</span><span class="p">(</span><span class="n">databases</span><span class="o">[</span><span class="no">Rails</span><span class="o">.</span><span class="n">env</span><span class="o">]</span><span class="p">)</span><span class="o">&lt;</span><span class="sr">/p&gt;</span>
+</span><span class='line'>
+</span><span class='line'><span class="sr">&lt;p&gt;end</span>
+</span></code></pre></td></tr></table></div></figure></notextile></div></p>
+
+<!--more-->
+
+
+<p>The <code>self.abstract_class = true</code> tells Active Record to not look up for a table, since this class is only used to add customm settings we don&rsquo;t need any database table for it.</p>
+
+<p>After that we should create a databases.rake file that will wrap database tasks for external database.</p>
+
+<p><div class='bogus-wrapper'><notextile><figure class='code'><figcaption><span>lib/tasks/databases.rake </span></figcaption>
+ <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+<span class='line-number'>20</span>
+<span class='line-number'>21</span>
+<span class='line-number'>22</span>
+<span class='line-number'>23</span>
+<span class='line-number'>24</span>
+<span class='line-number'>25</span>
+<span class='line-number'>26</span>
+<span class='line-number'>27</span>
+<span class='line-number'>28</span>
+<span class='line-number'>29</span>
+<span class='line-number'>30</span>
+<span class='line-number'>31</span>
+<span class='line-number'>32</span>
+<span class='line-number'>33</span>
+<span class='line-number'>34</span>
+<span class='line-number'>35</span>
+<span class='line-number'>36</span>
+<span class='line-number'>37</span>
+<span class='line-number'>38</span>
+<span class='line-number'>39</span>
+<span class='line-number'>40</span>
+<span class='line-number'>41</span>
+<span class='line-number'>42</span>
+<span class='line-number'>43</span>
+<span class='line-number'>44</span>
+<span class='line-number'>45</span>
+<span class='line-number'>46</span>
+<span class='line-number'>47</span>
+<span class='line-number'>48</span>
+<span class='line-number'>49</span>
+<span class='line-number'>50</span>
+<span class='line-number'>51</span>
+<span class='line-number'>52</span>
+<span class='line-number'>53</span>
+<span class='line-number'>54</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="n">namespace</span> <span class="ss">:support</span> <span class="k">do</span><span class="o">&lt;</span><span class="sr">/p&gt;</span>
+</span><span class='line'>
+</span><span class='line'><span class="sr">&lt;p&gt;  desc &amp;ldquo;Configure the variables that rails need in order to look up for the db&lt;/</span><span class="nb">p</span><span class="o">&gt;</span>
+</span><span class='line'>
+</span><span class='line'><span class="o">&lt;</span><span class="n">pre</span><span class="o">&gt;&lt;</span><span class="n">code</span><span class="o">&gt;</span><span class="n">configuration</span> <span class="k">in</span> <span class="n">a</span> <span class="n">different</span> <span class="n">folder</span><span class="s2">&quot;</span>
+</span><span class='line'><span class="s2">&lt;/code&gt;&lt;/pre&gt;</span>
+</span><span class='line'>
+</span><span class='line'><span class="s2">&lt;p&gt;  task :set_custom_db_config_paths do&lt;/p&gt;</span>
+</span><span class='line'>
+</span><span class='line'><span class="s2">&lt;pre&gt;&lt;code&gt;# This is the minimum required to tell rails to use a different location</span>
+</span><span class='line'><span class="s2"># for all the files related to the database.</span>
+</span><span class='line'><span class="s2">ENV[&#39;SCHEMA&#39;] = &#39;db_support/schema.rb&#39;</span>
+</span><span class='line'><span class="s2">Rails.application.config.paths[&#39;db&#39;] = [&#39;db_support&#39;]</span>
+</span><span class='line'><span class="s2">Rails.application.config.paths[&#39;db/migrate&#39;] = [&#39;db_support/migrate&#39;]</span>
+</span><span class='line'><span class="s2">Rails.application.config.paths[&#39;db/seeds&#39;] = [&#39;db_support/seeds.rb&#39;]</span>
+</span><span class='line'><span class="s2">Rails.application.config.paths[&#39;config/database&#39;] = [&#39;config/database_support.yml&#39;]</span>
+</span><span class='line'><span class="s2">&lt;/code&gt;&lt;/pre&gt;</span>
+</span><span class='line'>
+</span><span class='line'><span class="s2">&lt;p&gt;  end&lt;/p&gt;</span>
+</span><span class='line'>
+</span><span class='line'><span class="s2">&lt;p&gt;  namespace :db do&lt;/p&gt;</span>
+</span><span class='line'>
+</span><span class='line'><span class="s2">&lt;pre&gt;&lt;code&gt;task :drop =&amp;gt; :set_custom_db_config_paths do</span>
+</span><span class='line'><span class="s2">  Rake::Task[&quot;</span><span class="ss">db</span><span class="p">:</span><span class="n">drop</span><span class="s2">&quot;].invoke</span>
+</span><span class='line'><span class="s2">end</span>
+</span><span class='line'>
+</span><span class='line'><span class="s2">task :create =&amp;gt; :set_custom_db_config_paths do</span>
+</span><span class='line'><span class="s2">  Rake::Task[&quot;</span><span class="ss">db</span><span class="p">:</span><span class="n">create</span><span class="s2">&quot;].invoke</span>
+</span><span class='line'><span class="s2">end</span>
+</span><span class='line'>
+</span><span class='line'><span class="s2">task :migrate =&amp;gt; :set_custom_db_config_paths do</span>
+</span><span class='line'><span class="s2">  Rake::Task[&quot;</span><span class="ss">db</span><span class="p">:</span><span class="n">migrate</span><span class="s2">&quot;].invoke</span>
+</span><span class='line'><span class="s2">end</span>
+</span><span class='line'>
+</span><span class='line'><span class="s2">task :rollback =&amp;gt; :set_custom_db_config_paths do</span>
+</span><span class='line'><span class="s2">  Rake::Task[&quot;</span><span class="ss">db</span><span class="p">:</span><span class="n">rollback</span><span class="s2">&quot;].invoke</span>
+</span><span class='line'><span class="s2">end</span>
+</span><span class='line'>
+</span><span class='line'><span class="s2">task :seed =&amp;gt; :set_custom_db_config_paths do</span>
+</span><span class='line'><span class="s2">  Rake::Task[&quot;</span><span class="ss">db</span><span class="p">:</span><span class="n">seed</span><span class="s2">&quot;].invoke</span>
+</span><span class='line'><span class="s2">end</span>
+</span><span class='line'><span class="s2">namespace :test do</span>
+</span><span class='line'><span class="s2">  task :prepare =&amp;gt; :set_custom_db_config_paths do</span>
+</span><span class='line'><span class="s2">    Rake::Task[&quot;</span><span class="ss">db</span><span class="p">:</span><span class="nb">test</span><span class="ss">:prepare</span><span class="s2">&quot;].invoke</span>
+</span><span class='line'><span class="s2">  end</span>
+</span><span class='line'><span class="s2">end</span>
+</span><span class='line'>
+</span><span class='line'><span class="s2">task :version =&amp;gt; :set_custom_db_config_paths do</span>
+</span><span class='line'><span class="s2">  Rake::Task[&quot;</span><span class="ss">db</span><span class="p">:</span><span class="n">version</span><span class="s2">&quot;].invoke</span>
+</span><span class='line'><span class="s2">end</span>
+</span><span class='line'><span class="s2">&lt;/code&gt;&lt;/pre&gt;</span>
+</span><span class='line'>
+</span><span class='line'><span class="s2">&lt;p&gt;  end</span>
+</span><span class='line'><span class="s2">end</span>
+</span></code></pre></td></tr></table></div></figure></notextile></div></p>
+
+<p>We basically get all the standart rake database tasks wrapped in the support namespace and redefine application paths, so rake will run this commands on the external database.</p>
+
+<h2>Now, let&rsquo;s create files that we mention in this task:</h2>
+
+<ul>
+<li><code>db_support</code> folder in the root of application</li>
+<li><code>db_support/migrate</code> folder for migrations</li>
+<li><code>db_support/seeds.rb</code> file with the seeds for support database</li>
+<li><code>config/database_support.yml</code> file with the settings for database connection</li>
+</ul>
+
+
+<p>Here is an example of <code>database_support.yml</code>:</p>
+
+<p><div class='bogus-wrapper'><notextile><figure class='code'><figcaption><span>config/database_support.yml </span></figcaption>
+ <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+<span class='line-number'>20</span>
+<span class='line-number'>21</span>
+<span class='line-number'>22</span>
+<span class='line-number'>23</span>
+<span class='line-number'>24</span>
+</pre></td><td class='code'><pre><code class='yaml'><span class='line'><span class="l-Scalar-Plain">development</span><span class="p-Indicator">:</span>
+</span><span class='line'>  <span class="l-Scalar-Plain">adapter</span><span class="p-Indicator">:</span> <span class="l-Scalar-Plain">mysql2</span>
+</span><span class='line'>  <span class="l-Scalar-Plain">database</span><span class="p-Indicator">:</span> <span class="l-Scalar-Plain">support_development</span>
+</span><span class='line'>  <span class="l-Scalar-Plain">pool</span><span class="p-Indicator">:</span> <span class="l-Scalar-Plain">5</span>
+</span><span class='line'>  <span class="l-Scalar-Plain">username</span><span class="p-Indicator">:</span> <span class="l-Scalar-Plain">user</span>
+</span><span class='line'>  <span class="l-Scalar-Plain">password</span><span class="p-Indicator">:</span> <span class="l-Scalar-Plain">password&lt;/p&gt;</span>
+</span><span class='line'>
+</span><span class='line'><span class="l-Scalar-Plain">&lt;p&gt;test</span><span class="p-Indicator">:</span>
+</span><span class='line'>  <span class="l-Scalar-Plain">adapter</span><span class="p-Indicator">:</span> <span class="l-Scalar-Plain">mysql2</span>
+</span><span class='line'>  <span class="l-Scalar-Plain">database</span><span class="p-Indicator">:</span> <span class="l-Scalar-Plain">support_test</span>
+</span><span class='line'>  <span class="l-Scalar-Plain">pool</span><span class="p-Indicator">:</span> <span class="l-Scalar-Plain">5</span>
+</span><span class='line'>  <span class="l-Scalar-Plain">username</span><span class="p-Indicator">:</span> <span class="l-Scalar-Plain">user</span>
+</span><span class='line'>  <span class="l-Scalar-Plain">password</span><span class="p-Indicator">:</span> <span class="l-Scalar-Plain">password&lt;/p&gt;</span>
+</span><span class='line'>
+</span><span class='line'><span class="l-Scalar-Plain">&lt;p&gt;production</span><span class="p-Indicator">:</span>
+</span><span class='line'>  <span class="l-Scalar-Plain">adapter</span><span class="p-Indicator">:</span> <span class="l-Scalar-Plain">mysql2</span>
+</span><span class='line'>  <span class="l-Scalar-Plain">database</span><span class="p-Indicator">:</span> <span class="l-Scalar-Plain">partners_external</span>
+</span><span class='line'>  <span class="l-Scalar-Plain">pool</span><span class="p-Indicator">:</span> <span class="l-Scalar-Plain">5</span>
+</span><span class='line'>  <span class="l-Scalar-Plain">ip</span><span class="p-Indicator">:</span> <span class="l-Scalar-Plain">192.168.1.1</span>
+</span><span class='line'>  <span class="l-Scalar-Plain">port</span><span class="p-Indicator">:</span> <span class="l-Scalar-Plain">3306</span>
+</span><span class='line'>  <span class="l-Scalar-Plain">username</span><span class="p-Indicator">:</span> <span class="l-Scalar-Plain">external_username</span>
+</span><span class='line'>  <span class="l-Scalar-Plain">password</span><span class="p-Indicator">:</span> <span class="l-Scalar-Plain">external_password&lt;/p&gt;</span>
+</span><span class='line'>
+</span><span class='line'><span class="l-Scalar-Plain">&lt;p&gt;</span>
+</span></code></pre></td></tr></table></div></figure></notextile></div></p>
+
+<p>The key is that you still want to use local database in the development and for the tests.</p>
+
+<p>At this point we are pretty much done, now we can use commands like <code>bundle exec rake support:db:create</code> to create development and test database. We also still able to use <code>bundle exec rake db:migrate</code> for the default database.</p>
+
+<p>This solution is pretty extensible, so it wouldn&rsquo;t be hard to add as much databases as you need.</p>
+]]></content>
+  </entry>
+  
+</feed>

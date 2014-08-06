@@ -1,0 +1,193 @@
+
+<!DOCTYPE HTML>
+<html>
+<head>
+	<meta charset="utf-8">
+	<title>Install R programming language on OS X with Homebrew - Mikhail Nikalyukin</title>
+	<meta name="author" content="Mikhail Nikalyukin">
+
+	
+	<meta name="description" content="Install R Programming Language on OS X With Homebrew R First of all here is a small video with highlight of R Installation First of all, &hellip;">
+	<meta name="keywords" content="install r, install r programming language, homebrew, os x, install r os x, install r brew, brew">
+
+  <!-- http://t.co/dKP3o1e -->
+  <meta name="HandheldFriendly" content="True">
+  <meta name="MobileOptimized" content="320">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+	<link href="/atom.xml" rel="alternate" title="Mikhail Nikalyukin" type="application/atom+xml">
+	
+	<link rel="canonical" href="http://nikalyuk.in/blog/2014/08/06/install-r-programming-language-on-os-x-with-homebrew/">
+	<link href="/favicon.png" rel="shortcut icon">
+	<link href="/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
+	<!--[if lt IE 9]><script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script><![endif]-->
+	<script src="//ajax.googleapis.com/ajax/libs/jquery/1.7.2/jquery.min.js"></script>
+	<link href='http://fonts.googleapis.com/css?family=Open+Sans:400italic,400,700' rel='stylesheet' type='text/css'>
+	<!--Fonts from Google"s Web font directory at http://google.com/webfonts -->
+<link href="http://fonts.googleapis.com/css?family=PT+Serif:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+<link href="http://fonts.googleapis.com/css?family=PT+Sans:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+
+</head>
+
+
+<body>
+	<div class="container">
+		<div class="left-col">
+			<div class="intrude-less">
+			<header id="header" class="inner"><div class="profilepic">
+	<script src="/javascripts/md5.js"></script>
+	<script type="text/javascript">
+		$(function(){
+			$('.profilepic').append("<img src='http://www.gravatar.com/avatar/" + MD5("idups1k@gmail.com") + "?s=160' alt='Profile Picture' style='width: 160px;' />");
+		});
+	</script>
+</div>
+<hgroup>
+  <h1><a href="/">Mikhail Nikalyukin</a></h1>
+</hgroup>
+
+<p class="subtitle">Ruby on Rails Blog</p>
+<a href="mailto:idups1k@gmail.com">Send me a message!</a>
+<nav id="main-nav"><ul class="main-navigation">
+  <li><a href="/">Blog</a></li>
+  <li><a href="/blog/archives">Archives</a></li>
+</ul>
+
+
+<section class="aboutme">
+  <p>
+    Do what i love. Love what i do.
+  </p>
+</section>
+</nav>
+<nav id="sub-nav">
+	<div class="social">
+		
+		
+		<a class="google" href="https://plus.google.com/102514352683831634549" rel="author" title="Google+">Google+</a>
+		
+		
+		<a class="twitter" href="http://twitter.com/dpskftw" title="Twitter">Twitter</a>
+		
+		
+		<a class="github" href="https://github.com/dpsk" title="GitHub">GitHub</a>
+		
+		<a class="stackoverflow" href="http://stackoverflow.com/users/748259/mikhail-nikalyukin" title="stackoverflow">Stackoverflow</a>
+		
+		<a class="coderwall" href="https://coderwall.com/dpsk" title="Coderwall">Coderwall</a>
+		
+	</div>
+</nav></header>				
+			</div>
+		</div>	
+		<div class="mid-col">
+			
+				
+			
+			<div class="mid-col-container">
+				<div id="content" class="inner"><article class="post" itemscope itemtype="http://schema.org/BlogPosting">
+	<h1 class="title" itemprop="name">Install R Programming Language on OS X With Homebrew</h1>
+	<div class="entry-content" itemprop="articleBody"><h2>R</h2>
+
+<p>First of all here is a small video with highlight of R</p>
+
+<p><video width='720' height='480' preload='none' controls poster=''><source src='https://www.youtube.com/watch?v=TR2bHSJ_eck' ></video></p>
+
+<h2>Installation</h2>
+
+<p>First of all, prerequisites for installing R with homebrew is XQuartz and homebrew itself. You can find XQuartz <a href="http://xquartz.macosforge.org">here</a>.</p>
+
+<p>The installation itself is just couple of lines:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+</pre></td><td class='code'><pre><code class='bash'><span class='line'>brew update
+</span><span class='line'>brew tap homebrew/science
+</span><span class='line'>brew install gcc r
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>That&rsquo;s it, to test your environment just type <code>r</code> in the terminal and you will be prompted to r shell. To quit it use <code>q()</code> command.
+If you are using zsh shell you also need to disable binding for r(by default it&rsquo;s mapped for repeating last command). You can do so by adding <code>disable r</code> line to the <code>.zshrc</code> file.</p>
+</div>
+
+</article>
+
+	<div class="share">
+	<div class="addthis_toolbox addthis_default_style ">
+	
+	<a class="addthis_button_facebook_like" fb:like:layout="button_count"></a>
+	
+	
+	<a class="addthis_button_tweet"></a>
+	
+	
+	<a class="addthis_button_google_plusone" g:plusone:size="medium"></a>
+	
+	<a class="addthis_counter addthis_pill_style"></a>
+	</div>
+  <script type="text/javascript" src="http://s7.addthis.com/js/250/addthis_widget.js#pubid=ra-51c6b10521ca954f"></script>
+</div>
+
+
+
+<section id="comment">
+    <h1 class="title">Comments</h1>
+    <div id="disqus_thread" aria-live="polite"><noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+</div>
+</section>
+</div>
+			</div>
+			<footer id="footer" class="inner"><p>
+  Copyright &copy; 2014 - Mikhail Nikalyukin -
+  <span class="credit">Powered by <a href="http://octopress.org">Octopress</a></span>
+</p>
+</footer>
+			<script src="/javascripts/slash.js"></script>
+<script src="/javascripts/jquery.fancybox.pack.js"></script>
+<script type="text/javascript">
+(function($){
+	$('.fancybox').fancybox();
+})(jQuery);
+</script> <!-- Delete or comment this line to disable Fancybox -->
+
+
+<script type="text/javascript">
+      var disqus_shortname = 'nikalyukin';
+      
+        
+        // var disqus_developer = 1;
+        var disqus_identifier = 'http://nikalyuk.in/blog/2014/08/06/install-r-programming-language-on-os-x-with-homebrew/';
+        var disqus_url = 'http://nikalyuk.in/blog/2014/08/06/install-r-programming-language-on-os-x-with-homebrew/';
+        var disqus_script = 'embed.js';
+      
+    (function () {
+      var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+      dsq.src = 'http://' + disqus_shortname + '.disqus.com/' + disqus_script;
+      (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+    }());
+</script>
+
+
+
+	<script type="text/javascript">
+		var _gaq = _gaq || [];
+		_gaq.push(['_setAccount', 'UA-25441493-4']);
+		_gaq.push(['_trackPageview']);
+
+		(function() {
+			var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+			ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+			var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+		})();
+	</script>
+
+
+<!-- Yandex.Metrika counter --><script type="text/javascript">(function (d, w, c) { (w[c] = w[c] || []).push(function() { try { w.yaCounter22477930 = new Ya.Metrika({id:22477930, webvisor:true, clickmap:true, trackLinks:true, accurateTrackBounce:true}); } catch(e) { } }); var n = d.getElementsByTagName("script")[0], s = d.createElement("script"), f = function () { n.parentNode.insertBefore(s, n); }; s.type = "text/javascript"; s.async = true; s.src = (d.location.protocol == "https:" ? "https:" : "http:") + "//mc.yandex.ru/metrika/watch.js"; if (w.opera == "[object Opera]") { d.addEventListener("DOMContentLoaded", f, false); } else { f(); } })(document, window, "yandex_metrika_callbacks");</script><noscript><div><img src="//mc.yandex.ru/watch/22477930" style="position:absolute; left:-9999px;" alt="" /></div></noscript><!-- /Yandex.Metrika counter -->
+
+
+		</div>
+	</div>
+</body>
+</html>

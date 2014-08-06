@@ -1,0 +1,137 @@
+<?xml version="1.0" encoding="utf-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom">
+
+  <title><![CDATA[Category: CI | Mikhail Nikalyukin]]></title>
+  <link href="http://nikalyuk.in/blog/categories/ci/atom.xml" rel="self"/>
+  <link href="http://nikalyuk.in/"/>
+  <updated>2014-08-06T13:38:30+04:00</updated>
+  <id>http://nikalyuk.in/</id>
+  <author>
+    <name><![CDATA[Mikhail Nikalyukin]]></name>
+    <email><![CDATA[idups1k@gmail.com]]></email>
+  </author>
+  <generator uri="http://octopress.org/">Octopress</generator>
+
+  
+  <entry>
+    <title type="html"><![CDATA[Install Jenkins CI for Rails project with Cucumber]]></title>
+    <link href="http://nikalyuk.in/blog/2013/07/26/install-jenkins-ci-for-rails-project-with-cucumber/"/>
+    <updated>2013-07-26T18:34:00+04:00</updated>
+    <id>http://nikalyuk.in/blog/2013/07/26/install-jenkins-ci-for-rails-project-with-cucumber</id>
+    <content type="html"><![CDATA[<h2>Jenkins</h2>
+
+<p><img class="right" src="/images/posts/jenkins_logo.png" title="&lsquo;Jenkins logo&rsquo;" >
+This is a short guide on how to setup Jenkins(Hudson) for Rails project with cucumber features. The steps are described for Ubuntu machine. First of all &ndash; what is Jenkins?</p>
+
+<p>Jenkins is an award-winning application that monitors executions of repeated jobs, such as building a software project or jobs run by cron. Among those things, current Jenkins focuses on the following two jobs:</p>
+
+<ul>
+<li>Building/testing software projects continuously, just like CruiseControl or DamageControl. In a nutshell, Jenkins provides an easy-to-use so-called continuous integration system, making it easier for developers to integrate changes to the project, and making it easier for users to obtain a fresh build. The automated, continuous build increases the productivity.</li>
+<li>Monitoring executions of externally-run jobs, such as cron jobs and procmail jobs, even those that are run on a remote machine. For example, with cron, all you receive is regular e-mails that capture the output, and it is up to you to look at them diligently and notice when it broke. Jenkins keeps those outputs and makes it easy for you to notice when something is wrong.</li>
+</ul>
+
+
+<p>Let&rsquo;s install Jenkins with following commands:</p>
+
+<!--more-->
+
+
+<p><code>bash
+  wget -q -O - http://pkg.jenkins-ci.org/debian/jenkins-ci.org.key | sudo apt-key add -
+  sudo sh -c 'echo deb http://pkg.jenkins-ci.org/debian binary/ &gt; /etc/apt/sources.list.d/jenkins.list'
+  sudo apt-get update
+  sudo apt-get install jenkins
+</code></p>
+
+<p>From this point you can start jenkins like this:
+<code>
+sudo /etc/init.d/jenkins start
+</code></p>
+
+<h2>NGINX</h2>
+
+<p>Now we need to configure nginx for jenkins, the most basic setup will look like this:</p>
+
+<p>```
+upstream jenkins {
+  server 127.0.0.1:8080;
+}</p>
+
+<p>server {
+  listen 111.111.111.111:80;
+  server_name jenkins.project_name.com *.jenkins.project_name.com;</p>
+
+<p>  try_files $uri @jenkins;</p>
+
+<p>  location @jenkins {</p>
+
+<pre><code>  proxy_pass http://jenkins;
+  proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
+  proxy_set_header Host $http_host;
+  proxy_redirect off;
+</code></pre>
+
+<p>  }
+}
+```</p>
+
+<p>So now jenkins web interface is up and running at jenkins.project_name.com</p>
+
+<h2>Jenkins User</h2>
+
+<p>Jenkins using <code>jenkins</code> ubuntu user by default. We should add the pair of ssh keys to him, as well as install ruby. For this purposes login as jenkins
+<code>sudo su jenkins</code>. <code>ssh-keygen -t rsa</code> to generate ssh keys. Install ruby with rvm or your ruby version manager of choice. Also we should add name and email to git for jenkins. So the list of commands will be following:</p>
+
+<p><code>
+sudo su jenkins
+ssh-keygen -t rsa
+\curl -L https://get.rvm.io | bash -s stable --ruby
+echo "source $HOME/.rvm/scripts/rvm" &gt;&gt; ~/.bash_profile
+source ~/.bash_profile
+rvm install 1.9.3
+git config --global user.email "jenkins@example.com"
+git config --global user.name "Jenkins Hudson"
+</code></p>
+
+<h2>Jenkins Plugins</h2>
+
+<p>Now let&rsquo;s install some useful plugins for Jenkins. Go to the  <em>Manage Jenkins &ndash;> Manage Plugins</em> and check following plugins:</p>
+
+<ul>
+<li>Git Client Plugin</li>
+<li>GitHub Plugin</li>
+<li>Ruby Plugin</li>
+<li>Rake plugin</li>
+<li>Cucumber plugin</li>
+</ul>
+
+
+<h2>Add project to Jenkins</h2>
+
+<p>Now we a ready to add our project to Jenkins. Go to the <em>New Job &ndash;> Free-style</em> Navigate to <code>Source Code Management</code> menu and choose Git, enter your git repository address and specify the branch.</p>
+
+<p><img src="/images/posts/hudson_git.png" title="&lsquo;Jenkins Git options&rsquo; &lsquo;Jenkins Git options&rsquo;" ></p>
+
+<p>Now we only need to specify commands for building our project. Specify &ldquo;Execute shell script&rdquo; and add following commands, you may want to change them for your needs:</p>
+
+<p>```</p>
+
+<h1>!/bin/bash -x</h1>
+
+<p>source ~/.bash_profile
+rvm use 1.9.3
+bundle install
+cp config/database.yml.example database.yml
+rake db:test:prepare RAILS_ENV=test
+cucumber
+```</p>
+
+<p>You also may want to add some notifications, for my project i&rsquo;m using hipchat notification, but the most easiest solution to setup is email notifications. You will need to add SMTP settings in the <em>Manage Jenkins &ndash;> System Configurations &ndash;> E-mail Notification</em>. After that just specify emails in the project settings.</p>
+
+<p>If you want to run your rspec tests instead of cucumber, or run all together just change your build commands.</p>
+
+<p>That&rsquo;s all, you are ready to go!</p>
+]]></content>
+  </entry>
+  
+</feed>
