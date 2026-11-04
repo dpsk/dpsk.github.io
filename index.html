@@ -53,6 +53,8 @@
   .btn.solid { background: var(--fg); color: var(--wall); }
   .btn.solid:hover { background: var(--gold); border-color: var(--gold); }
   .note { font-size: 13px; color: var(--muted); }
+  .alt { margin: 24px 0 0; padding-top: 20px; border-top: 1px solid var(--line); font-size: 14px; color: var(--muted); }
+  .alt b { color: var(--fg); font-weight: 500; }
 
   /* sections */
   section.block { padding: 140px 0 0; }
@@ -164,9 +166,9 @@
     <h1>A museum<br>on your <em>desktop.</em></h1>
     <p class="lede">An endless walk through public-domain paintings from museums worldwide. A new one every hour, with the title, artist and story one click away.</p>
     <div class="get">
-      <a class="btn solid" href="https://github.com/dpsk/museum-wallpapers-windows/releases/latest"><svg class="i"><use href="#win"/></svg>Download for Windows</a>
+      <a class="btn solid" href="https://apps.microsoft.com/detail/9plk21lk9ksl"><svg class="i"><use href="#win"/></svg>Get it from Microsoft Store</a>
       <a class="btn" href="#install"><svg class="i"><use href="#term"/></svg>Install on Omarchy</a>
-      <span class="note">Free and open source · Windows 10 &amp; 11</span>
+      <span class="note">Free · Windows 10 &amp; 11 · or <a href="https://github.com/dpsk/museum-wallpapers-windows/releases/latest">download the installer</a></span>
     </div>
   </div>
 </section>
@@ -219,18 +221,14 @@
       <div class="install">
         <div class="panel">
           <h3><svg><use href="#win"/></svg>Windows</h3>
-          <p class="req">Windows 10 or 11 · tray app · no admin rights</p>
+          <p class="req">Windows 10 or 11 · tray app · updates through the Store</p>
           <ol>
-            <li>Download <b>MuseumWallpapers-Setup.exe</b>.</li>
-            <li>Run it. The installer isn’t code-signed yet, so Windows may warn you: click <b>More info → Run anyway</b>.</li>
+            <li>Install it from the Microsoft Store.</li>
             <li>The first painting appears within seconds. A gilt-frame icon sits by the clock.</li>
           </ol>
-          <div class="foot get">
-            <a class="btn solid" href="https://github.com/dpsk/museum-wallpapers-windows/releases/latest"><svg class="i"><use href="#win"/></svg>Download latest release</a>
-            <a class="note" href="https://github.com/dpsk/museum-wallpapers-windows">Source on GitHub</a>
-            <!-- Microsoft Store: uncomment and set the app URL once the listing is live.
-            <a class="btn" href="https://apps.microsoft.com/detail/APP_ID">Get it from Microsoft Store</a>
-            -->
+          <div class="foot">
+            <div class="get"><a class="btn solid" href="https://apps.microsoft.com/detail/9plk21lk9ksl"><svg class="i"><use href="#win"/></svg>Get it from Microsoft Store</a></div>
+            <p class="alt"><b>Prefer a direct download?</b> Grab the installer from <a href="https://github.com/dpsk/museum-wallpapers-windows/releases/latest">GitHub Releases</a>. It isn’t code-signed, so Windows may warn you: click <b>More info → Run anyway</b>. Install one or the other, not both. <a href="https://github.com/dpsk/museum-wallpapers-windows">Source on GitHub</a>.</p>
           </div>
         </div>
         <div class="panel">
