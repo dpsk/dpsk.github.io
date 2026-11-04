@@ -53,6 +53,12 @@
   .btn.solid { background: var(--fg); color: var(--wall); }
   .btn.solid:hover { background: var(--gold); border-color: var(--gold); }
   .note { font-size: 13px; color: var(--muted); }
+  .pair { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; }
+  .pair .btn { justify-content: center; min-width: 210px; }
+  .also { margin: 18px 0 6px; font-size: 14px; }
+  .also a { display: inline-flex; gap: 8px; align-items: center; color: #ddd3c2; }
+  .also a:hover { color: var(--fg); }
+  .hero .note { margin: 0; }
   .alt { margin: 24px 0 0; padding-top: 20px; border-top: 1px solid var(--line); font-size: 14px; color: var(--muted); }
   .alt b { color: var(--fg); font-weight: 500; }
 
@@ -125,11 +131,13 @@
   .social a:hover { color: var(--gold); border-color: var(--gold); }
   .social svg { width: 18px; height: 18px; }
 
-  @media (max-width: 1100px) { .install { grid-template-columns: 1fr 1fr; } .install .panel:first-child { grid-column: 1 / -1; } }
+  @media (max-width: 1100px) { .install { grid-template-columns: 1fr 1fr; } .install .panel:last-child { grid-column: 1 / -1; } }
   @media (max-width: 900px) {
     .wrap, .top { padding-left: 16px; padding-right: 16px; }
     .top nav a:not(.more) { display: none; }
     .hero .copy { left: 16px; right: 16px; bottom: 40px; }
+    .hero .get, .pair { display: grid; width: 100%; }
+    .pair .btn { min-width: 0; padding: 13px 10px; }
     .split, .install, .fits, .fame, .support .wrap, footer .wrap { grid-template-columns: 1fr; }
     .fame div + div { border-left: 0; padding-left: 0; border-top: 1px solid var(--line); margin-top: 24px; }
     .card-shot img { width: 100%; }
@@ -168,11 +176,13 @@
     <h1>A museum<br>on your <em>desktop.</em></h1>
     <p class="lede">An endless walk through public-domain paintings from museums worldwide. A new one every hour, with the title, artist and story one click away.</p>
     <div class="get">
-      <a class="btn solid" href="https://apps.microsoft.com/detail/9plk21lk9ksl"><svg class="i"><use href="#win"/></svg>Get it from Microsoft Store</a>
-      <a class="btn" href="#mac"><svg class="i"><use href="#mac"/></svg>Install on Mac</a>
-      <a class="btn" href="#omarchy"><svg class="i"><use href="#term"/></svg>Install on Omarchy</a>
-      <span class="note">Free · Windows 10 &amp; 11 · macOS 13+ · Omarchy 4</span>
+      <div class="pair">
+        <a class="btn solid" href="https://apps.microsoft.com/detail/9plk21lk9ksl"><svg class="i"><use href="#win"/></svg>Get for Windows</a>
+        <a class="btn solid" href="#mac"><svg class="i"><use href="#mac"/></svg>Get for Mac</a>
+      </div>
     </div>
+    <p class="also"><a href="#omarchy"><svg class="i"><use href="#term"/></svg>Also on Omarchy: install the plugin</a></p>
+    <p class="note">Free · Windows 10 &amp; 11 · macOS 13+ · Omarchy 4</p>
   </div>
 </section>
 
