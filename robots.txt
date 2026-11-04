@@ -1,4 +1,0 @@
-User-agent: *
-Disallow: 
-
-Sitemap: http://dpsk.github.io/sitemap.xml 
