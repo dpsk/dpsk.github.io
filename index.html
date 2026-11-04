@@ -78,7 +78,7 @@
   .tabs button:hover { color: var(--fg); }
   .tabs button[aria-selected="true"] { color: var(--fg); border-bottom-color: var(--gold); }
   .card-shot { margin: 0; width: 490px; height: 660px; padding: 18px; background: var(--wall-2); box-shadow: 0 40px 70px -35px #000; display: grid; place-items: center; }
-  .card-shot img { width: auto; height: auto; max-width: 100%; max-height: 100%; }
+  .card-shot img { width: auto; height: auto; max-width: 100%; max-height: 624px; }
   .card-shot img[hidden] { display: none; }
 
   /* fit modes */
@@ -147,6 +147,7 @@
     .split, .install, .fits, .fame, .support .wrap, footer .wrap { grid-template-columns: 1fr; }
     .fame div + div { border-left: 0; padding-left: 0; border-top: 1px solid var(--line); margin-top: 24px; }
     .card-shot { width: 100%; height: 560px; padding: 14px; }
+    .card-shot img { max-height: 532px; }
     section.block { padding-top: 96px; }
     footer .others { flex-direction: column; gap: 16px; }
     footer .credits { text-align: left; }
@@ -212,7 +213,7 @@
           <button type="button" role="tab" aria-selected="false" data-shot="omarchy"><svg class="i"><use href="#term"/></svg>Omarchy</button>
         </div>
         <figure class="card-shot">
-          <img data-shot="windows" src="img/card-windows.webp" loading="lazy" width="652" height="836" alt="The Windows card over the wallpaper: preview, title, artist, museum, the story, Next painting, Read more, Save, More by">
+          <img data-shot="windows" src="img/card-windows.webp" loading="lazy" width="732" height="1018" alt="The Windows card: preview, title, artist, museum, the story, Next painting, Read more, Save, More by">
           <img data-shot="mac" src="img/card-mac.webp" loading="lazy" hidden width="380" height="739" alt="The macOS card under the menu bar icon: preview, title, artist, the story, Next, Read more, Save, More by, and settings">
           <img data-shot="omarchy" src="img/card.webp" loading="lazy" hidden width="410" height="545" alt="The Omarchy card: preview, title, artist, museum, summary, Next, Read more, Save, quick filters and settings">
         </figure>
