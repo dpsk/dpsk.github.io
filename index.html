@@ -101,17 +101,20 @@
 
   /* install */
   .install { display: grid; grid-template-columns: repeat(3, 1fr); gap: 28px; margin-top: 48px; }
-  .panel { background: var(--raise); border: 1px solid var(--line); padding: 32px; display: flex; flex-direction: column; }
+  .panel { background: var(--raise); border: 1px solid var(--line); padding: 32px; display: grid; grid-row: span 5; grid-template-rows: auto auto 1fr auto auto; grid-template-rows: subgrid; row-gap: 0; }
   .panel h3 { font-family: var(--serif); font-weight: 600; font-size: 32px; margin: 0 0 4px; display: flex; gap: 12px; align-items: center; }
   .panel h3 svg { width: 22px; height: 22px; color: var(--gold); }
   .panel .req { color: var(--muted); font-size: 14px; margin: 0 0 24px; }
-  .panel ol { margin: 0 0 28px; padding-left: 20px; display: grid; gap: 10px; }
+  .panel ol { margin: 0 0 28px; padding-left: 20px; display: grid; gap: 10px; align-content: start; }
   .panel ol li::marker { color: var(--gold); font-family: var(--serif); font-size: 19px; }
-  .panel .foot { margin-top: auto; }
-  pre { font: 13px/1.6 var(--mono); background: var(--wall-2); border: 1px solid var(--line); padding: 14px 16px; margin: 0 0 16px; white-space: pre-wrap; word-break: break-all; color: var(--fg); }
+  .panel .act { align-self: end; }
+  .panel .alt > * { margin: 0; }
+  .panel .alt > * + * { margin-top: 12px; }
+  pre { font: 13px/1.6 var(--mono); background: var(--wall-2); border: 1px solid var(--line); padding: 14px 16px; margin: 0; white-space: pre-wrap; word-break: break-all; color: var(--fg); }
   pre::before { content: "$ "; color: var(--gold); }
   .copy-btn { background: none; border: 1px solid var(--line); color: var(--muted); font: 13px var(--sans); padding: 7px 12px; cursor: pointer; }
   .copy-btn:hover { color: var(--fg); border-color: var(--muted); }
+  button.btn { font-family: inherit; line-height: inherit; cursor: pointer; }
 
   .privacy { margin-top: 28px; color: var(--muted); font-size: 15px; display: flex; gap: 10px; align-items: center; }
   .privacy svg { color: var(--gold); width: 18px; height: 18px; }
@@ -257,22 +260,22 @@
             <li>Install it from the Microsoft Store.</li>
             <li>The first painting appears within seconds. A gilt-frame icon sits by the clock.</li>
           </ol>
-          <div class="foot">
-            <div class="get"><a class="btn solid" href="https://apps.microsoft.com/detail/9plk21lk9ksl"><svg class="i"><use href="#win"/></svg>Get it from Microsoft Store</a></div>
-            <p class="alt"><b>Prefer a direct download?</b> Grab the installer from <a href="https://github.com/dpsk/museum-wallpapers-windows/releases/latest">GitHub Releases</a>. It isn’t code-signed, so Windows may warn you: click <b>More info → Run anyway</b>. Install one or the other, not both. <a href="https://github.com/dpsk/museum-wallpapers-windows">Source on GitHub</a>.</p>
+          <div class="act get"><a class="btn solid" href="https://apps.microsoft.com/detail/9plk21lk9ksl"><svg class="i"><use href="#win"/></svg>Get it from Microsoft Store</a></div>
+          <div class="alt">
+            <p><b>Prefer a direct download?</b> Grab the installer from <a href="https://github.com/dpsk/museum-wallpapers-windows/releases/latest">GitHub Releases</a>. It isn’t code-signed, so Windows may warn you: click <b>More info → Run anyway</b>. Install one or the other, not both. <a href="https://github.com/dpsk/museum-wallpapers-windows">Source on GitHub</a>.</p>
           </div>
         </div>
         <div class="panel" id="mac">
           <h3><svg><use href="#apple"/></svg>macOS</h3>
           <p class="req">macOS 13 Ventura or later · menu bar app · updates itself</p>
           <ol>
-            <li>Run this in Terminal. It downloads the release for your Mac, verifies it and puts it in Applications.</li>
+            <li>Copy the install command and run it in Terminal. It downloads the release for your Mac, verifies it and puts it in Applications.</li>
             <li>The first painting appears within seconds. A frame icon sits in the menu bar.</li>
           </ol>
-          <div class="foot">
+          <div class="act get"><button class="btn solid" type="button" data-copy><svg class="i"><use href="#apple"/></svg><span aria-live="polite">Copy the install command</span></button></div>
+          <div class="alt">
             <pre>curl -fsSL https://raw.githubusercontent.com/dpsk/museum-wallpapers-macos/main/install.sh | bash</pre>
-            <div class="get"><button class="copy-btn" type="button">Copy command</button></div>
-            <p class="alt"><b>Prefer a .dmg?</b> Grab the Apple silicon or Intel build from <a href="https://github.com/dpsk/museum-wallpapers-macos/releases/latest">GitHub Releases</a> and drag it to Applications. It isn’t notarized, so on first launch open <b>System Settings → Privacy &amp; Security</b> and click <b>Open Anyway</b>. <a href="https://github.com/dpsk/museum-wallpapers-macos">Source on GitHub</a>.</p>
+            <p><b>Prefer a .dmg?</b> Grab the Apple silicon or Intel build from <a href="https://github.com/dpsk/museum-wallpapers-macos/releases/latest">GitHub Releases</a> and drag it to Applications. It isn’t notarized, so on first launch open <b>System Settings → Privacy &amp; Security</b> and click <b>Open Anyway</b>. <a href="https://github.com/dpsk/museum-wallpapers-macos">Source on GitHub</a>.</p>
           </div>
         </div>
         <div class="panel" id="omarchy">
@@ -282,11 +285,11 @@
             <li>Install it from the Omarchy Plugin Marketplace. It starts the service and adds the widget to the bar.</li>
             <li>The first painting appears within a minute. Click the palette icon for the card.</li>
           </ol>
-          <div class="foot">
-            <div class="get"><a class="btn solid" href="https://plugins.omarchy.org/plugin.html?id=io.github.dpsk.museum-wallpapers"><svg class="i"><use href="#term"/></svg>Get it from the Plugin Marketplace</a></div>
-            <p class="alt"><b>Prefer the terminal?</b> The same install in one command:</p>
+          <div class="act get"><a class="btn solid" href="https://plugins.omarchy.org/plugin.html?id=io.github.dpsk.museum-wallpapers"><svg class="i"><use href="#term"/></svg>Get it from the Marketplace</a></div>
+          <div class="alt">
+            <p><b>Prefer the terminal?</b> The same install in one command:</p>
             <pre>omarchy plugin add https://github.com/dpsk/omarchy-museum-wallpapers --enable</pre>
-            <div class="get"><button class="copy-btn" type="button">Copy command</button><a class="note" href="https://github.com/dpsk/omarchy-museum-wallpapers">Source and settings on GitHub</a></div>
+            <div class="get"><button class="copy-btn" type="button" data-copy aria-live="polite">Copy command</button><a class="note" href="https://github.com/dpsk/omarchy-museum-wallpapers">Source and settings on GitHub</a></div>
           </div>
         </div>
       </div>
@@ -330,11 +333,21 @@
   tabs.forEach(t => t.addEventListener('click', () => show(t.dataset.shot)));
   if (/Mac|iPhone|iPad/.test(navigator.platform)) show('mac');
   else if (/Linux/.test(navigator.platform) && !/Android/.test(navigator.userAgent)) show('omarchy');
-  document.querySelectorAll('.copy-btn').forEach(b => b.addEventListener('click', () => {
-    navigator.clipboard?.writeText(b.closest('.foot').querySelector('pre').textContent);
-    b.textContent = 'Copied';
-    setTimeout(() => b.textContent = 'Copy command', 1600);
-  }));
+  document.querySelectorAll('[data-copy]').forEach(b => {
+    const label = b.querySelector('span') || b, text = label.textContent;
+    let timer;
+    const say = msg => {
+      clearTimeout(timer);
+      if (!b.style.minWidth) b.style.minWidth = b.offsetWidth + 'px';
+      label.textContent = msg;
+      timer = setTimeout(() => { label.textContent = text; b.style.minWidth = ''; }, 1600);
+    };
+    b.addEventListener('click', () => {
+      const cmd = b.closest('.panel').querySelector('pre').textContent;
+      const copied = navigator.clipboard ? navigator.clipboard.writeText(cmd) : Promise.reject();
+      copied.then(() => say('Copied'), () => say('Select the command to copy'));
+    });
+  });
 </script>
 <script data-goatcounter="https://nikaliuk.goatcounter.com/count" async src="//gc.zgo.at/count.js"></script>
 </body>
