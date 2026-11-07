@@ -11,7 +11,17 @@
 <meta property="og:title" content="Museum Wallpapers">
 <meta property="og:description" content="A museum on your desktop: endless public-domain paintings as your wallpaper, with the story one click away. Free for Windows, macOS and Omarchy.">
 <meta property="og:image" content="https://nikaliuk.in/img/og.jpg">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta property="og:site_name" content="Museum Wallpapers">
 <meta name="twitter:card" content="summary_large_image">
+<link rel="canonical" href="https://nikaliuk.in/">
+<link rel="alternate" hreflang="en" href="https://nikaliuk.in/">
+<link rel="alternate" hreflang="ru" href="https://nikaliuk.in/ru/">
+<link rel="alternate" hreflang="x-default" href="https://nikaliuk.in/">
+<script type="application/ld+json">
+{"@context":"https://schema.org","@type":"SoftwareApplication","name":"Museum Wallpapers","applicationCategory":"DesktopEnhancementApplication","operatingSystem":"Windows 10, Windows 11, macOS 13+, Omarchy 4","description":"Endless public-domain paintings from museums worldwide as your desktop wallpaper, with the title, artist and story one click away.","url":"https://nikaliuk.in/","image":"https://nikaliuk.in/img/og.jpg","downloadUrl":"https://apps.microsoft.com/detail/9plk21lk9ksl","license":"https://github.com/dpsk/museum-wallpapers-windows/blob/main/LICENSE","isAccessibleForFree":true,"offers":{"@type":"Offer","price":"0","priceCurrency":"USD"},"author":{"@type":"Person","name":"dpsk","url":"https://github.com/dpsk"}}
+</script>
 <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect x='2' y='4' width='28' height='24' rx='1' fill='%23c9a45c'/%3E%3Crect x='6' y='8' width='20' height='16' fill='%231c1a17'/%3E%3Cpath d='M6 21l6-6 5 5 3-3 6 6v1H6z' fill='%23c9a45c'/%3E%3C/svg%3E">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Cormorant:ital,wght@0,500;0,600;1,500&family=IBM+Plex+Sans:wght@400;500&family=IBM+Plex+Mono&display=swap" rel="stylesheet">
@@ -59,6 +69,16 @@
   .also a { display: inline-flex; gap: 8px; align-items: center; color: #ddd3c2; }
   .also a:hover { color: var(--fg); }
   .hero .note { margin: 0; }
+  .btn.solid.ghost { background: rgb(21 19 15 / .35); color: var(--fg); }
+  .btn.solid.ghost:hover { background: var(--fg); border-color: var(--fg); color: var(--wall); }
+  .lang { font-size: 13px; letter-spacing: .04em; }
+  .phone { margin: 0 0 22px; padding: 16px 18px; border: 1px solid rgb(239 232 220 / .35); background: rgb(21 19 15 / .55); max-width: 520px; }
+  .phone p { margin: 0 0 12px; font-size: 15px; color: #ddd3c2; }
+  .phone .row { display: flex; gap: 10px; flex-wrap: wrap; }
+  .phone .btn { padding: 11px 16px; font-size: 14px; }
+  .phone .btn:not(.solid) { background: none; color: var(--fg); }
+  .phone .btn:not(.solid):hover { background: var(--fg); color: var(--wall); }
+  [hidden] { display: none !important; }
   .alt { margin: 24px 0 0; padding-top: 20px; border-top: 1px solid var(--line); font-size: 14px; color: var(--muted); }
   .alt b { color: var(--fg); font-weight: 500; }
 
@@ -143,8 +163,11 @@
   @media (max-width: 1100px) { .install { grid-template-columns: 1fr 1fr; } .install .panel:last-child { grid-column: 1 / -1; } }
   @media (max-width: 900px) {
     .wrap, .top { padding-left: 16px; padding-right: 16px; }
-    .top nav a:not(.more) { display: none; }
-    .hero .copy { left: 16px; right: 16px; bottom: 40px; }
+    .top nav a:not(.more):not(.lang) { display: none; }
+    .top nav { gap: 16px; }
+    .hero { height: auto; min-height: 100svh; max-height: none; display: flex; align-items: flex-end; }
+    .hero > img { position: absolute; inset: 0; }
+    .hero .copy { position: relative; left: auto; right: auto; bottom: auto; padding: 112px 16px 40px; }
     .hero .get, .pair { display: grid; width: 100%; }
     .pair .btn { min-width: 0; padding: 13px 10px; }
     .split, .install, .fits, .fame, .support .wrap, footer .wrap { grid-template-columns: 1fr; }
@@ -158,7 +181,7 @@
   }
 </style>
 </head>
-<body>
+<body data-copied="Copied" data-copy-fail="Select the command to copy" data-share-text="Museum Wallpapers: public-domain paintings from museums worldwide as your desktop wallpaper. Install it on your computer:">
 <svg width="0" height="0" style="position:absolute" aria-hidden="true">
   <symbol id="win" viewBox="0 0 16 16"><path fill="currentColor" d="M0 2.3 6.5 1.4v6.2H0zM7.3 1.3 16 0v7.6H7.3zM0 8.4h6.5v6.2L0 13.7zM7.3 8.4H16V16l-8.7-1.2z"/></symbol>
   <symbol id="apple" viewBox="0 0 24 24"><path fill="currentColor" d="M12.15 6.9c-.95 0-2.42-1.08-3.96-1.04-2.04.03-3.91 1.18-4.96 3.01-2.12 3.68-.55 9.1 1.52 12.09 1.01 1.45 2.2 3.09 3.79 3.04 1.52-.07 2.09-.99 3.94-.99 1.83 0 2.35.99 3.96.95 1.64-.03 2.68-1.48 3.68-2.95 1.16-1.69 1.64-3.33 1.66-3.42-.04-.01-3.18-1.22-3.22-4.86-.03-3.04 2.48-4.49 2.6-4.56-1.43-2.09-3.62-2.32-4.39-2.38-2-.16-3.68 1.09-4.61 1.09zM15.53 3.83c.84-1.01 1.4-2.43 1.25-3.83-1.21.05-2.66.8-3.53 1.82-.78.9-1.46 2.34-1.27 3.71 1.34.1 2.71-.69 3.56-1.7"/></symbol>
@@ -177,6 +200,7 @@
     <a href="#install">Install</a>
     <a href="#support">Support</a>
     <a class="more" href="#other">More plugins<svg class="i"><use href="#arrow"/></svg></a>
+    <a class="lang" href="/ru/" hreflang="ru" lang="ru">RU</a>
   </nav>
 </header>
 
@@ -185,14 +209,21 @@
   <div class="copy">
     <h1>A museum<br>on your <em>desktop.</em></h1>
     <p class="lede">An endless walk through public-domain paintings from museums worldwide. A new one every hour, with the title, artist and story one click away.</p>
-    <div class="get">
-      <div class="pair">
-        <a class="btn solid" href="https://apps.microsoft.com/detail/9plk21lk9ksl"><svg class="i"><use href="#win"/></svg>Get for Windows</a>
-        <a class="btn solid" href="#mac"><svg class="i"><use href="#apple"/></svg>Get for Mac</a>
+    <div class="phone" hidden>
+      <p>It’s a desktop app for Windows, macOS and Omarchy. Send yourself the link and install it on your computer.</p>
+      <div class="row">
+        <button class="btn solid" type="button" data-send data-goatcounter-click="phone-send">Send to my computer</button>
+        <button class="btn" type="button" data-copylink data-goatcounter-click="phone-copy"><span aria-live="polite">Copy link</span></button>
       </div>
     </div>
-    <p class="also"><a href="#omarchy"><svg class="i"><use href="#term"/></svg>Also on Omarchy: install the plugin</a></p>
-    <p class="note">Free · Windows 10 &amp; 11 · macOS 13+ · Omarchy 4</p>
+    <div class="get">
+      <div class="pair">
+        <a class="btn solid" data-os="windows" data-store href="https://apps.microsoft.com/detail/9plk21lk9ksl" data-goatcounter-click="get-windows-hero"><svg class="i"><use href="#win"/></svg>Get for Windows</a>
+        <a class="btn solid" data-os="mac" href="#mac" data-goatcounter-click="get-mac-hero"><svg class="i"><use href="#apple"/></svg>Get for Mac</a>
+      </div>
+    </div>
+    <p class="also"><a href="#omarchy" data-goatcounter-click="get-omarchy-hero"><svg class="i"><use href="#term"/></svg>Also on Omarchy: install the plugin</a></p>
+    <p class="note">Free and open source · Windows 10 &amp; 11 · macOS 13+ · Omarchy 4</p>
   </div>
 </section>
 
@@ -260,9 +291,9 @@
             <li>Install it from the Microsoft Store.</li>
             <li>The first painting appears within seconds. A gilt-frame icon sits by the clock.</li>
           </ol>
-          <div class="act get"><a class="btn solid" href="https://apps.microsoft.com/detail/9plk21lk9ksl"><svg class="i"><use href="#win"/></svg>Get it from Microsoft Store</a></div>
+          <div class="act get"><a class="btn solid" data-store href="https://apps.microsoft.com/detail/9plk21lk9ksl" data-goatcounter-click="get-windows-store"><svg class="i"><use href="#win"/></svg>Get it from Microsoft Store</a></div>
           <div class="alt">
-            <p><b>Prefer a direct download?</b> Grab the installer from <a href="https://github.com/dpsk/museum-wallpapers-windows/releases/latest">GitHub Releases</a>. It isn’t code-signed, so Windows may warn you: click <b>More info → Run anyway</b>. Install one or the other, not both. <a href="https://github.com/dpsk/museum-wallpapers-windows">Source on GitHub</a>.</p>
+            <p><b>Prefer a direct download?</b> Grab the installer from <a href="https://github.com/dpsk/museum-wallpapers-windows/releases/latest" data-goatcounter-click="get-windows-exe">GitHub Releases</a>. It isn’t code-signed, so Windows may warn you: click <b>More info → Run anyway</b>. Install one or the other, not both. <a href="https://github.com/dpsk/museum-wallpapers-windows">Source on GitHub</a>.</p>
           </div>
         </div>
         <div class="panel" id="mac">
@@ -272,10 +303,10 @@
             <li>Copy the install command and run it in Terminal. It downloads the release for your Mac, verifies it and puts it in Applications.</li>
             <li>The first painting appears within seconds. A frame icon sits in the menu bar.</li>
           </ol>
-          <div class="act get"><button class="btn solid" type="button" data-copy><svg class="i"><use href="#apple"/></svg><span aria-live="polite">Copy the install command</span></button></div>
+          <div class="act get"><button class="btn solid" type="button" data-copy data-goatcounter-click="get-mac-command"><svg class="i"><use href="#apple"/></svg><span aria-live="polite">Copy the install command</span></button></div>
           <div class="alt">
             <pre>curl -fsSL https://raw.githubusercontent.com/dpsk/museum-wallpapers-macos/main/install.sh | bash</pre>
-            <p><b>Prefer a .dmg?</b> Grab the Apple silicon or Intel build from <a href="https://github.com/dpsk/museum-wallpapers-macos/releases/latest">GitHub Releases</a> and drag it to Applications. It isn’t notarized, so on first launch open <b>System Settings → Privacy &amp; Security</b> and click <b>Open Anyway</b>. <a href="https://github.com/dpsk/museum-wallpapers-macos">Source on GitHub</a>.</p>
+            <p><b>Prefer a .dmg?</b> Grab the Apple silicon or Intel build from <a href="https://github.com/dpsk/museum-wallpapers-macos/releases/latest" data-goatcounter-click="get-mac-dmg">GitHub Releases</a> and drag it to Applications. It isn’t notarized, so on first launch open <b>System Settings → Privacy &amp; Security</b> and click <b>Open Anyway</b>. <a href="https://github.com/dpsk/museum-wallpapers-macos">Source on GitHub</a>.</p>
           </div>
         </div>
         <div class="panel" id="omarchy">
@@ -285,11 +316,11 @@
             <li>Install it from the Omarchy Plugin Marketplace. It starts the service and adds the widget to the bar.</li>
             <li>The first painting appears within a minute. Click the palette icon for the card.</li>
           </ol>
-          <div class="act get"><a class="btn solid" href="https://plugins.omarchy.org/plugin.html?id=io.github.dpsk.museum-wallpapers"><svg class="i"><use href="#term"/></svg>Get it from the Marketplace</a></div>
+          <div class="act get"><a class="btn solid" href="https://plugins.omarchy.org/plugin.html?id=io.github.dpsk.museum-wallpapers" data-goatcounter-click="get-omarchy-marketplace"><svg class="i"><use href="#term"/></svg>Get it from the Marketplace</a></div>
           <div class="alt">
             <p><b>Prefer the terminal?</b> The same install in one command:</p>
             <pre>omarchy plugin add https://github.com/dpsk/omarchy-museum-wallpapers --enable</pre>
-            <div class="get"><button class="copy-btn" type="button" data-copy aria-live="polite">Copy command</button><a class="note" href="https://github.com/dpsk/omarchy-museum-wallpapers">Source and settings on GitHub</a></div>
+            <div class="get"><button class="copy-btn" type="button" data-copy aria-live="polite" data-goatcounter-click="get-omarchy-command">Copy command</button><a class="note" href="https://github.com/dpsk/omarchy-museum-wallpapers">Source and settings on GitHub</a></div>
           </div>
         </div>
       </div>
@@ -301,7 +332,7 @@
 <section class="support" id="support">
   <div class="wrap">
     <div><h2>Admission is free.</h2><p>Museum Wallpapers is open source and costs nothing. If it makes your desk a nicer place, you can leave something at the door.</p></div>
-    <a class="btn gold" href="https://ko-fi.com/nmikhail">Support on Ko-fi</a>
+    <a class="btn gold" href="https://ko-fi.com/nmikhail" data-goatcounter-click="ko-fi">Support on Ko-fi</a>
   </div>
 </section>
 
@@ -324,31 +355,7 @@
   </div>
 </footer>
 
-<script>
-  const tabs = document.querySelectorAll('.tabs button');
-  const show = id => {
-    tabs.forEach(t => t.setAttribute('aria-selected', t.dataset.shot === id));
-    document.querySelectorAll('.card-shot img').forEach(i => i.hidden = i.dataset.shot !== id);
-  };
-  tabs.forEach(t => t.addEventListener('click', () => show(t.dataset.shot)));
-  if (/Mac|iPhone|iPad/.test(navigator.platform)) show('mac');
-  else if (/Linux/.test(navigator.platform) && !/Android/.test(navigator.userAgent)) show('omarchy');
-  document.querySelectorAll('[data-copy]').forEach(b => {
-    const label = b.querySelector('span') || b, text = label.textContent;
-    let timer;
-    const say = msg => {
-      clearTimeout(timer);
-      if (!b.style.minWidth) b.style.minWidth = b.offsetWidth + 'px';
-      label.textContent = msg;
-      timer = setTimeout(() => { label.textContent = text; b.style.minWidth = ''; }, 1600);
-    };
-    b.addEventListener('click', () => {
-      const cmd = b.closest('.panel').querySelector('pre').textContent;
-      const copied = navigator.clipboard ? navigator.clipboard.writeText(cmd) : Promise.reject();
-      copied.then(() => say('Copied'), () => say('Select the command to copy'));
-    });
-  });
-</script>
+<script src="/js/site.js"></script>
 <script data-goatcounter="https://nikaliuk.goatcounter.com/count" async src="//gc.zgo.at/count.js"></script>
 </body>
 </html>

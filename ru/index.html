@@ -1,0 +1,362 @@
+<!doctype html>
+<html lang="ru">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Museum Wallpapers — музей на рабочем столе</title>
+<meta name="description" content="Бесконечные картины из музеев мира в общественном достоянии — обоями рабочего стола на Windows, macOS и Omarchy. Бесплатно.">
+<meta name="theme-color" content="#1c1a17">
+<meta property="og:type" content="website">
+<meta property="og:url" content="https://nikaliuk.in/ru/">
+<meta property="og:locale" content="ru_RU">
+<meta property="og:title" content="Museum Wallpapers">
+<meta property="og:description" content="Музей на рабочем столе: бесконечные картины в общественном достоянии вместо обоев, история каждой — в один клик. Бесплатно для Windows, macOS и Omarchy.">
+<meta property="og:image" content="https://nikaliuk.in/img/og.jpg">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta property="og:site_name" content="Museum Wallpapers">
+<meta name="twitter:card" content="summary_large_image">
+<link rel="canonical" href="https://nikaliuk.in/ru/">
+<link rel="alternate" hreflang="en" href="https://nikaliuk.in/">
+<link rel="alternate" hreflang="ru" href="https://nikaliuk.in/ru/">
+<link rel="alternate" hreflang="x-default" href="https://nikaliuk.in/">
+<script type="application/ld+json">
+{"@context":"https://schema.org","@type":"SoftwareApplication","name":"Museum Wallpapers","applicationCategory":"DesktopEnhancementApplication","operatingSystem":"Windows 10, Windows 11, macOS 13+, Omarchy 4","description":"Бесконечные картины из музеев мира в общественном достоянии — обоями рабочего стола, с названием, автором и историей в один клик.","url":"https://nikaliuk.in/ru/","inLanguage":"ru","image":"https://nikaliuk.in/img/og.jpg","downloadUrl":"https://apps.microsoft.com/detail/9plk21lk9ksl","license":"https://github.com/dpsk/museum-wallpapers-windows/blob/main/LICENSE","isAccessibleForFree":true,"offers":{"@type":"Offer","price":"0","priceCurrency":"USD"},"author":{"@type":"Person","name":"dpsk","url":"https://github.com/dpsk"}}
+</script>
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect x='2' y='4' width='28' height='24' rx='1' fill='%23c9a45c'/%3E%3Crect x='6' y='8' width='20' height='16' fill='%231c1a17'/%3E%3Cpath d='M6 21l6-6 5 5 3-3 6 6v1H6z' fill='%23c9a45c'/%3E%3C/svg%3E">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Cormorant:ital,wght@0,500;0,600;1,500&family=IBM+Plex+Sans:wght@400;500&family=IBM+Plex+Mono&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --wall: #1c1a17; --wall-2: #15130f; --raise: #24211c; --fg: #efe8dc; --muted: #b3a995;
+    --line: #3a352e; --gold: #c9a45c; --gold-ink: #1c1a17;
+    --serif: Cormorant, Georgia, serif; --sans: "IBM Plex Sans", system-ui, sans-serif; --mono: "IBM Plex Mono", monospace;
+  }
+  * { box-sizing: border-box; }
+  html { scroll-behavior: smooth; }
+  body { margin: 0; background: var(--wall); color: var(--fg); font: 17px/1.65 var(--sans); }
+  ::selection { background: var(--gold); color: var(--gold-ink); }
+  a { color: inherit; text-underline-offset: 4px; text-decoration-thickness: 1px; }
+  a:focus-visible, button:focus-visible { outline: 2px solid var(--gold); outline-offset: 3px; }
+  img { display: block; max-width: 100%; }
+  svg.i { width: 16px; height: 16px; flex: none; }
+  .wrap { max-width: 1200px; margin: 0 auto; padding: 0 40px; }
+
+  /* nav */
+  .top { position: absolute; inset: 0 0 auto; z-index: 3; display: flex; justify-content: space-between; align-items: center; padding: 24px 40px; font-size: 14px; }
+  .brand { font-family: var(--serif); font-size: 24px; font-weight: 600; text-decoration: none; letter-spacing: .01em; }
+  .top nav { display: flex; gap: 28px; align-items: center; }
+  .top nav a { text-decoration: none; opacity: .85; }
+  .top nav a:hover { opacity: 1; text-decoration: underline; }
+  .more { border: 1px solid rgb(239 232 220 / .4); padding: 7px 12px; display: inline-flex; gap: 6px; align-items: center; opacity: 1 !important; }
+
+  /* hero */
+  .hero { position: relative; height: 100vh; min-height: 680px; max-height: 980px; overflow: hidden; }
+  .hero > img { width: 100%; height: 100%; object-fit: cover; object-position: 50% 45%; }
+  .hero::after { content: ""; position: absolute; inset: 0; background: linear-gradient(to top, rgb(21 19 15 / .95) 0%, rgb(21 19 15 / .25) 50%, rgb(21 19 15 / .45) 100%); }
+  .hero .copy { position: absolute; left: 40px; right: 40px; bottom: 64px; z-index: 1; max-width: 760px; }
+  h1 { font-family: var(--serif); font-weight: 500; font-size: clamp(56px, 8.5vw, 120px); line-height: .9; letter-spacing: -0.02em; margin: 0 0 22px; }
+  h1 em { color: var(--gold); }
+  .lede { margin: 0 0 32px; max-width: 48ch; font-size: 19px; color: #ddd3c2; }
+  .get { display: flex; gap: 14px; flex-wrap: wrap; align-items: center; }
+  .btn { display: inline-flex; gap: 10px; align-items: center; padding: 13px 22px; text-decoration: none; font-weight: 500; font-size: 15px; border: 1px solid var(--fg); transition: background .2s, color .2s; }
+  .btn:hover { background: var(--fg); color: var(--wall); }
+  .btn.solid { background: var(--fg); color: var(--wall); }
+  .btn.solid:hover { background: var(--gold); border-color: var(--gold); }
+  .note { font-size: 13px; color: var(--muted); }
+  .pair { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; }
+  .pair .btn { justify-content: center; min-width: 210px; }
+  .also { margin: 18px 0 6px; font-size: 14px; }
+  .also a { display: inline-flex; gap: 8px; align-items: center; color: #ddd3c2; }
+  .also a:hover { color: var(--fg); }
+  .hero .note { margin: 0; }
+  .btn.solid.ghost { background: rgb(21 19 15 / .35); color: var(--fg); }
+  .btn.solid.ghost:hover { background: var(--fg); border-color: var(--fg); color: var(--wall); }
+  .lang { font-size: 13px; letter-spacing: .04em; }
+  .phone { margin: 0 0 22px; padding: 16px 18px; border: 1px solid rgb(239 232 220 / .35); background: rgb(21 19 15 / .55); max-width: 520px; }
+  .phone p { margin: 0 0 12px; font-size: 15px; color: #ddd3c2; }
+  .phone .row { display: flex; gap: 10px; flex-wrap: wrap; }
+  .phone .btn { padding: 11px 16px; font-size: 14px; }
+  .phone .btn:not(.solid) { background: none; color: var(--fg); }
+  .phone .btn:not(.solid):hover { background: var(--fg); color: var(--wall); }
+  [hidden] { display: none !important; }
+  .alt { margin: 24px 0 0; padding-top: 20px; border-top: 1px solid var(--line); font-size: 14px; color: var(--muted); }
+  .alt b { color: var(--fg); font-weight: 500; }
+
+  /* sections */
+  section.block { padding: 140px 0 0; }
+  h2 { font-family: var(--serif); font-weight: 500; font-size: clamp(38px, 4.5vw, 56px); line-height: 1; letter-spacing: -0.01em; margin: 0 0 20px; }
+  .split { display: grid; grid-template-columns: 1fr 1.1fr; gap: 72px; align-items: center; }
+  .split p { color: var(--muted); max-width: 46ch; margin: 0 0 28px; }
+  ul.points { list-style: none; padding: 0; margin: 0; display: grid; gap: 14px; }
+  ul.points li { display: grid; grid-template-columns: 22px 1fr; gap: 10px; }
+  ul.points svg { width: 18px; height: 18px; color: var(--gold); margin-top: 4px; }
+  ul.points b { font-weight: 500; }
+  ul.points span { color: var(--muted); }
+  .shots { justify-self: center; display: grid; gap: 18px; justify-items: center; }
+  .tabs { display: flex; gap: 6px; }
+  .tabs button { background: none; border: 0; border-bottom: 1px solid transparent; color: var(--muted); font: 500 14px var(--sans); padding: 6px 10px; cursor: pointer; display: inline-flex; gap: 8px; align-items: center; }
+  .tabs button:hover { color: var(--fg); }
+  .tabs button[aria-selected="true"] { color: var(--fg); border-bottom-color: var(--gold); }
+  .card-shot { margin: 0; width: 490px; height: 660px; padding: 18px; background: var(--wall-2); box-shadow: 0 40px 70px -35px #000; display: grid; place-items: center; }
+  .card-shot img { width: auto; height: auto; max-width: 100%; max-height: 624px; }
+  .card-shot img[hidden] { display: none; }
+
+  /* fit modes */
+  .fits { display: grid; grid-template-columns: repeat(3, 1fr); gap: 28px; margin-top: 48px; }
+  .fits figure { margin: 0; }
+  .fits .frame { padding: 12px; background: var(--wall-2); box-shadow: 0 30px 50px -30px #000; }
+  .fits img { aspect-ratio: 16 / 9; object-fit: cover; width: 100%; }
+  .fits figcaption { border-top: 1px solid var(--gold); margin-top: 18px; padding-top: 12px; }
+  .fits figcaption i { font-family: var(--serif); font-size: 26px; display: block; line-height: 1.1; }
+  .fits figcaption span { color: var(--muted); font-size: 15px; }
+  .intro { color: var(--muted); max-width: 56ch; margin: 0; }
+
+  /* fame */
+  .fame { display: grid; grid-template-columns: repeat(3, 1fr); border-top: 1px solid var(--line); margin-top: 48px; }
+  .fame div { padding: 28px 28px 0 0; }
+  .fame div + div { padding-left: 28px; border-left: 1px solid var(--line); }
+  .fame b { font-family: var(--serif); font-weight: 500; font-size: 30px; display: block; line-height: 1.1; }
+  .fame small { display: block; color: var(--gold); font-size: 13px; letter-spacing: .04em; margin-bottom: 8px; }
+  .fame p { margin: 6px 0 0; color: var(--muted); font-size: 15px; }
+
+  /* install */
+  .install { display: grid; grid-template-columns: repeat(3, 1fr); gap: 28px; margin-top: 48px; }
+  .panel { background: var(--raise); border: 1px solid var(--line); padding: 32px; display: grid; grid-row: span 5; grid-template-rows: auto auto 1fr auto auto; grid-template-rows: subgrid; row-gap: 0; }
+  .panel h3 { font-family: var(--serif); font-weight: 600; font-size: 32px; margin: 0 0 4px; display: flex; gap: 12px; align-items: center; }
+  .panel h3 svg { width: 22px; height: 22px; color: var(--gold); }
+  .panel .req { color: var(--muted); font-size: 14px; margin: 0 0 24px; }
+  .panel ol { margin: 0 0 28px; padding-left: 20px; display: grid; gap: 10px; align-content: start; }
+  .panel ol li::marker { color: var(--gold); font-family: var(--serif); font-size: 19px; }
+  .panel .act { align-self: end; }
+  .panel .alt > * { margin: 0; }
+  .panel .alt > * + * { margin-top: 12px; }
+  pre { font: 13px/1.6 var(--mono); background: var(--wall-2); border: 1px solid var(--line); padding: 14px 16px; margin: 0; white-space: pre-wrap; word-break: break-all; color: var(--fg); }
+  pre::before { content: "$ "; color: var(--gold); }
+  .copy-btn { background: none; border: 1px solid var(--line); color: var(--muted); font: 13px var(--sans); padding: 7px 12px; cursor: pointer; }
+  .copy-btn:hover { color: var(--fg); border-color: var(--muted); }
+  button.btn { font-family: inherit; line-height: inherit; cursor: pointer; }
+
+  .privacy { margin-top: 28px; color: var(--muted); font-size: 15px; display: flex; gap: 10px; align-items: center; }
+  .privacy svg { color: var(--gold); width: 18px; height: 18px; }
+
+  /* support */
+  .support { margin-top: 160px; border-top: 1px solid var(--line); border-bottom: 1px solid var(--line); padding: 88px 0; }
+  .support .wrap { display: grid; grid-template-columns: 1fr auto; gap: 40px; align-items: center; }
+  .support h2 { margin-bottom: 10px; }
+  .support p { margin: 0; color: var(--muted); max-width: 52ch; }
+  .btn.gold { background: var(--gold); border-color: var(--gold); color: var(--gold-ink); font-size: 16px; padding: 15px 28px; }
+  .btn.gold:hover { background: var(--fg); border-color: var(--fg); }
+
+  footer { padding: 48px 0 56px; font-size: 14px; color: var(--muted); }
+  footer .wrap { display: grid; grid-template-columns: 1fr auto; gap: 32px; align-items: start; }
+  footer h4 { font: 500 13px var(--sans); color: var(--fg); margin: 0 0 10px; letter-spacing: .03em; }
+  footer .others { display: flex; gap: 40px; }
+  footer .others a { display: block; text-decoration: none; color: var(--fg); }
+  footer .others a:hover { text-decoration: underline; }
+  footer .others small { display: block; color: var(--muted); }
+  footer .credits { text-align: right; }
+  .social { display: flex; gap: 8px; justify-content: flex-end; margin-bottom: 14px; }
+  .social a { display: grid; place-items: center; width: 40px; height: 40px; border: 1px solid var(--line); color: var(--muted); transition: color .2s, border-color .2s; }
+  .social a:hover { color: var(--gold); border-color: var(--gold); }
+  .social svg { width: 18px; height: 18px; }
+
+  @media (max-width: 1100px) { .install { grid-template-columns: 1fr 1fr; } .install .panel:last-child { grid-column: 1 / -1; } }
+  @media (max-width: 900px) {
+    .wrap, .top { padding-left: 16px; padding-right: 16px; }
+    .top nav a:not(.more):not(.lang) { display: none; }
+    .top nav { gap: 16px; }
+    .hero { height: auto; min-height: 100svh; max-height: none; display: flex; align-items: flex-end; }
+    .hero > img { position: absolute; inset: 0; }
+    .hero .copy { position: relative; left: auto; right: auto; bottom: auto; padding: 112px 16px 40px; }
+    .hero .get, .pair { display: grid; width: 100%; }
+    .pair .btn { min-width: 0; padding: 13px 10px; }
+    .split, .install, .fits, .fame, .support .wrap, footer .wrap { grid-template-columns: 1fr; }
+    .fame div + div { border-left: 0; padding-left: 0; border-top: 1px solid var(--line); margin-top: 24px; }
+    .card-shot { width: 100%; height: 560px; padding: 14px; }
+    .card-shot img { max-height: 532px; }
+    section.block { padding-top: 96px; }
+    footer .others { flex-direction: column; gap: 16px; }
+    footer .credits { text-align: left; }
+    .social { justify-content: flex-start; }
+  }
+</style>
+</head>
+<body data-copied="Скопировано" data-copy-fail="Выделите команду и скопируйте" data-share-text="Museum Wallpapers: картины из музеев мира обоями рабочего стола. Установить на компьютер:">
+<svg width="0" height="0" style="position:absolute" aria-hidden="true">
+  <symbol id="win" viewBox="0 0 16 16"><path fill="currentColor" d="M0 2.3 6.5 1.4v6.2H0zM7.3 1.3 16 0v7.6H7.3zM0 8.4h6.5v6.2L0 13.7zM7.3 8.4H16V16l-8.7-1.2z"/></symbol>
+  <symbol id="apple" viewBox="0 0 24 24"><path fill="currentColor" d="M12.15 6.9c-.95 0-2.42-1.08-3.96-1.04-2.04.03-3.91 1.18-4.96 3.01-2.12 3.68-.55 9.1 1.52 12.09 1.01 1.45 2.2 3.09 3.79 3.04 1.52-.07 2.09-.99 3.94-.99 1.83 0 2.35.99 3.96.95 1.64-.03 2.68-1.48 3.68-2.95 1.16-1.69 1.64-3.33 1.66-3.42-.04-.01-3.18-1.22-3.22-4.86-.03-3.04 2.48-4.49 2.6-4.56-1.43-2.09-3.62-2.32-4.39-2.38-2-.16-3.68 1.09-4.61 1.09zM15.53 3.83c.84-1.01 1.4-2.43 1.25-3.83-1.21.05-2.66.8-3.53 1.82-.78.9-1.46 2.34-1.27 3.71 1.34.1 2.71-.69 3.56-1.7"/></symbol>
+  <symbol id="term" viewBox="0 0 24 24"><g fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="2.5" y="4" width="19" height="16" rx="1.5"/><path d="m7 9 3 3-3 3M12.5 15H17"/></g></symbol>
+  <symbol id="arrow" viewBox="0 0 16 16"><path fill="none" stroke="currentColor" stroke-width="1.5" d="M5 11 11 5M6 5h5v5"/></symbol>
+  <symbol id="dot" viewBox="0 0 18 18"><path fill="none" stroke="currentColor" stroke-width="1.5" d="M3 9.5 7 13l8-8"/></symbol>
+  <symbol id="gh" viewBox="0 0 16 16"><path fill="currentColor" d="M8 0a8 8 0 0 0-2.5 15.6c.4 0 .5-.2.5-.4v-1.5c-2.2.5-2.7-1-2.7-1-.4-.9-.9-1.2-.9-1.2-.7-.5.1-.5.1-.5.8.1 1.2.8 1.2.8.7 1.3 1.9.9 2.4.7 0-.5.3-.9.5-1.1-1.8-.2-3.6-.9-3.6-4 0-.9.3-1.6.8-2.1-.1-.2-.4-1 .1-2.1 0 0 .7-.2 2.2.8a7.5 7.5 0 0 1 4 0c1.5-1 2.2-.8 2.2-.8.4 1.1.2 1.9.1 2.1.5.6.8 1.3.8 2.1 0 3.1-1.9 3.8-3.6 4 .3.3.6.8.6 1.5v2.2c0 .2.1.5.6.4A8 8 0 0 0 8 0"/></symbol>
+  <symbol id="x" viewBox="0 0 24 24"><path fill="currentColor" d="M17.75 3h3.07l-6.7 7.66L22 21h-6.17l-4.83-6.32L5.47 21H2.4l7.17-8.2L2 3h6.33l4.37 5.78zm-1.08 16.18h1.7L7.4 4.73H5.58z"/></symbol>
+  <symbol id="lock"viewBox="0 0 24 24"><g fill="none" stroke="currentColor" stroke-width="1.6"><rect x="5" y="10.5" width="14" height="10" rx="1.5"/><path d="M8 10.5V8a4 4 0 0 1 8 0v2.5"/></g></symbol>
+</svg>
+
+<header class="top">
+  <a class="brand" href="/ru/">Museum Wallpapers</a>
+  <nav>
+    <a href="#card">Как это работает</a>
+    <a href="#install">Установка</a>
+    <a href="#support">Поддержать</a>
+    <a class="more" href="#other">Другие плагины<svg class="i"><use href="#arrow"/></svg></a>
+    <a class="lang" href="/" hreflang="en" lang="en">EN</a>
+  </nav>
+</header>
+
+<section class="hero">
+  <img src="/img/hero.webp" fetchpriority="high" alt="«Девятый вал» Ивана Айвазовского обоями рабочего стола, с маленькой музейной табличкой в углу">
+  <div class="copy">
+    <h1>Музей<br>на рабочем <em>столе.</em></h1>
+    <p class="lede">Бесконечная прогулка по картинам из музеев мира, перешедшим в общественное достояние. Новая каждый час, а название, автор и история — в один клик.</p>
+    <div class="phone" hidden>
+      <p>Это приложение для компьютера: Windows, macOS и Omarchy. Отправьте себе ссылку и установите его на компьютер.</p>
+      <div class="row">
+        <button class="btn solid" type="button" data-send data-goatcounter-click="phone-send">Отправить на компьютер</button>
+        <button class="btn" type="button" data-copylink data-goatcounter-click="phone-copy"><span aria-live="polite">Скопировать ссылку</span></button>
+      </div>
+    </div>
+    <div class="get">
+      <div class="pair">
+        <a class="btn solid" data-os="windows" data-store href="https://apps.microsoft.com/detail/9plk21lk9ksl" data-goatcounter-click="get-windows-hero"><svg class="i"><use href="#win"/></svg>Скачать для Windows</a>
+        <a class="btn solid" data-os="mac" href="#mac" data-goatcounter-click="get-mac-hero"><svg class="i"><use href="#apple"/></svg>Скачать для Mac</a>
+      </div>
+    </div>
+    <p class="also"><a href="#omarchy" data-goatcounter-click="get-omarchy-hero"><svg class="i"><use href="#term"/></svg>Есть и для Omarchy: установить плагин</a></p>
+    <p class="note">Бесплатно, открытый код · Windows 10 и 11 · macOS 13+ · Omarchy 4</p>
+  </div>
+</section>
+
+<main>
+  <section class="block" id="card">
+    <div class="wrap split">
+      <div>
+        <h2>Знайте, на что смотрите.</h2>
+        <p>У каждой картины есть своя табличка. Нажмите на значок в трее или в строке меню — откроется карточка: название, автор, год и музей, а ещё история картины из Википедии.</p>
+        <ul class="points">
+          <li><svg><use href="#dot"/></svg><div><b>Дальше, Подробнее, Сохранить.</b> <span>Сразу перейти к следующей, открыть статью или сохранить картину вместе с подписью.</span></div></li>
+          <li><svg><use href="#dot"/></svg><div><b>Ещё Караваджо.</b> <span>Один клик — и прогулка сужается до одного художника или направления.</span></div></li>
+          <li><svg><use href="#dot"/></svg><div><b>На вашем языке.</b> <span>Названия и истории из той Википедии, которую вы читаете. Интерфейс — на десяти языках, включая русский и украинский.</span></div></li>
+          <li><svg><use href="#dot"/></svg><div><b>Табличка на стене.</b> <span>Маленькая музейная подпись в углу рабочего стола — или без неё.</span></div></li>
+        </ul>
+      </div>
+      <div class="shots">
+        <div class="tabs" role="tablist" aria-label="Платформа">
+          <button type="button" role="tab" aria-selected="true" data-shot="windows"><svg class="i"><use href="#win"/></svg>Windows</button>
+          <button type="button" role="tab" aria-selected="false" data-shot="mac"><svg class="i"><use href="#apple"/></svg>macOS</button>
+          <button type="button" role="tab" aria-selected="false" data-shot="omarchy"><svg class="i"><use href="#term"/></svg>Omarchy</button>
+        </div>
+        <figure class="card-shot">
+          <img data-shot="windows" src="/img/card-windows.webp" loading="lazy" width="732" height="1018" alt="Карточка в Windows: превью, название, автор, музей, история, кнопки Дальше, Подробнее, Сохранить, Ещё этого автора">
+          <img data-shot="mac" src="/img/card-mac.webp" loading="lazy" hidden width="380" height="739" alt="Карточка в macOS под значком в строке меню: превью, название, автор, история, Дальше, Подробнее, Сохранить, Ещё этого автора и настройки">
+          <img data-shot="omarchy" src="/img/card.webp" loading="lazy" hidden width="410" height="545" alt="Карточка в Omarchy: превью, название, автор, музей, описание, Дальше, Подробнее, Сохранить, быстрые фильтры и настройки">
+        </figure>
+      </div>
+    </div>
+  </section>
+
+  <section class="block">
+    <div class="wrap">
+      <h2>Повешено как надо, какой бы ни был формат.</h2>
+      <p class="intro">Мало у каких картин пропорции вашего экрана. Выберите, как вешать остальные. Каждый монитор получает скан под своё разрешение, вплоть до 4K.</p>
+      <div class="fits">
+        <figure><div class="frame"><img loading="lazy" width="1000" height="563" src="/img/fit-blur.webp" alt="«Гадалка» в рамке из своей же размытой копии"></div><figcaption><i>Размытие</i><span>Картина целиком, в рамке из своей мягко размытой копии. По умолчанию.</span></figcaption></figure>
+        <figure><div class="frame"><img loading="lazy" width="1000" height="563" src="/img/fit-wall.webp" alt="«Гадалка» на тёмной стене"></div><figcaption><i>Стена</i><span>Картина целиком, с полями, на тёмной стене.</span></figcaption></figure>
+        <figure><div class="frame"><img loading="lazy" width="1000" height="563" src="/img/fit-cover.webp" alt="«Гадалка» на весь экран, с обрезкой"></div><figcaption><i>Заполнение</i><span>На весь экран от края до края, лишнее обрезается.</span></figcaption></figure>
+      </div>
+    </div>
+  </section>
+
+  <section class="block">
+    <div class="wrap">
+      <h2>Сначала — знаменитые художники.</h2>
+      <p class="intro">Картины берутся из Викиданных и сканов Викисклада, многие из них — музейные съёмки Google Art Project. Выберите, насколько далеко от проторённых дорожек забредать.</p>
+      <div class="fame">
+        <div><small>ЗНАМЕНИТЫЕ · ПО УМОЛЧАНИЮ</small><b>~280 художников</b><p>Леонардо, Рембрандт, Ван Гог, Моне, Айвазовский. Около 38 000 картин.</p></div>
+        <div><small>ИЗВЕСТНЫЕ</small><b>~1200 художников</b><p>Все, о ком есть статьи в 30+ Википедиях. Около 94 000 картин.</p></div>
+        <div><small>ВСЕ</small><b>Все подряд</b><p>Вся коллекция Google Art Project и всё, что подходит под ваши фильтры.</p></div>
+      </div>
+    </div>
+  </section>
+
+  <section class="block" id="install">
+    <div class="wrap">
+      <h2>Установка.</h2>
+      <p class="intro">Те же картины, подписи и фильтры на всех платформах.</p>
+      <div class="install">
+        <div class="panel">
+          <h3><svg><use href="#win"/></svg>Windows</h3>
+          <p class="req">Windows 10 или 11 · приложение в трее · обновляется через Store</p>
+          <ol>
+            <li>Установите его из Microsoft Store.</li>
+            <li>Первая картина появится через несколько секунд. Значок в золочёной рамке — рядом с часами.</li>
+          </ol>
+          <div class="act get"><a class="btn solid" data-store href="https://apps.microsoft.com/detail/9plk21lk9ksl" data-goatcounter-click="get-windows-store"><svg class="i"><use href="#win"/></svg>Скачать в Microsoft Store</a></div>
+          <div class="alt">
+            <p><b>Хотите скачать напрямую?</b> Установщик есть на <a href="https://github.com/dpsk/museum-wallpapers-windows/releases/latest" data-goatcounter-click="get-windows-exe">GitHub Releases</a>. Он не подписан, поэтому Windows может предупредить: нажмите <b>Подробнее → Выполнить в любом случае</b>. Ставьте что-то одно, не обе версии сразу. <a href="https://github.com/dpsk/museum-wallpapers-windows">Исходники на GitHub</a>.</p>
+          </div>
+        </div>
+        <div class="panel" id="mac">
+          <h3><svg><use href="#apple"/></svg>macOS</h3>
+          <p class="req">macOS 13 Ventura или новее · приложение в строке меню · обновляется само</p>
+          <ol>
+            <li>Скопируйте команду установки и выполните её в Терминале. Она скачает версию для вашего Mac, проверит её и положит в «Программы».</li>
+            <li>Первая картина появится через несколько секунд. Значок-рамка — в строке меню.</li>
+          </ol>
+          <div class="act get"><button class="btn solid" type="button" data-copy data-goatcounter-click="get-mac-command"><svg class="i"><use href="#apple"/></svg><span aria-live="polite">Скопировать команду установки</span></button></div>
+          <div class="alt">
+            <pre>curl -fsSL https://raw.githubusercontent.com/dpsk/museum-wallpapers-macos/main/install.sh | bash</pre>
+            <p><b>Удобнее .dmg?</b> Сборки для Apple silicon и Intel есть на <a href="https://github.com/dpsk/museum-wallpapers-macos/releases/latest" data-goatcounter-click="get-mac-dmg">GitHub Releases</a> — перетащите приложение в «Программы». Оно не нотаризовано, поэтому при первом запуске откройте <b>Системные настройки → Конфиденциальность и безопасность</b> и нажмите кнопку <b>«Открыть»</b> рядом с сообщением о Museum Wallpapers. <a href="https://github.com/dpsk/museum-wallpapers-macos">Исходники на GitHub</a>.</p>
+          </div>
+        </div>
+        <div class="panel" id="omarchy">
+          <h3><svg><use href="#term"/></svg>Omarchy</h3>
+          <p class="req">Omarchy 4 · плагин оболочки · виджет на панели</p>
+          <ol>
+            <li>Установите его из Omarchy Plugin Marketplace. Он запустит сервис и добавит виджет на панель.</li>
+            <li>Первая картина появится в течение минуты. Карточка — по клику на значок палитры.</li>
+          </ol>
+          <div class="act get"><a class="btn solid" href="https://plugins.omarchy.org/plugin.html?id=io.github.dpsk.museum-wallpapers" data-goatcounter-click="get-omarchy-marketplace"><svg class="i"><use href="#term"/></svg>Установить из Marketplace</a></div>
+          <div class="alt">
+            <p><b>Предпочитаете терминал?</b> То же самое одной командой:</p>
+            <pre>omarchy plugin add https://github.com/dpsk/omarchy-museum-wallpapers --enable</pre>
+            <div class="get"><button class="copy-btn" type="button" data-copy aria-live="polite" data-goatcounter-click="get-omarchy-command">Скопировать команду</button><a class="note" href="https://github.com/dpsk/omarchy-museum-wallpapers">Исходники и настройки на GitHub</a></div>
+          </div>
+        </div>
+      </div>
+      <p class="privacy"><svg><use href="#lock"/></svg>Общается только с Викимедиа и ничего о вас не отправляет.</p>
+    </div>
+  </section>
+</main>
+
+<section class="support" id="support">
+  <div class="wrap">
+    <div><h2>Вход свободный.</h2><p>Museum Wallpapers — открытый код и ничего не стоит. Если с ним за рабочим столом стало приятнее, можно оставить что-нибудь у входа.</p></div>
+    <a class="btn gold" href="https://ko-fi.com/nmikhail" data-goatcounter-click="ko-fi">Поддержать на Ko-fi</a>
+  </div>
+</section>
+
+<footer id="other">
+  <div class="wrap">
+    <div>
+      <h4>ДРУГИЕ ПЛАГИНЫ ДЛЯ OMARCHY</h4>
+      <div class="others">
+        <a href="https://github.com/dpsk/omarchy-layout-memory">Layout Memory<small>Раскладка клавиатуры для каждого приложения</small></a>
+        <a href="https://github.com/dpsk/omarchy-clockify">Clockify<small>Трекер времени на панели</small></a>
+      </div>
+    </div>
+    <div class="credits">
+      <div class="social">
+        <a href="https://x.com/dpskftw" aria-label="dpsk on X"><svg><use href="#x"/></svg></a>
+        <a href="https://github.com/dpsk" aria-label="dpsk on GitHub"><svg><use href="#gh"/></svg></a>
+      </div>
+      Сделал <a href="https://github.com/dpsk">dpsk</a><br>Картины: общественное достояние, через Викисклад
+    </div>
+  </div>
+</footer>
+
+<script src="/js/site.js"></script>
+<script data-goatcounter="https://nikaliuk.goatcounter.com/count" async src="//gc.zgo.at/count.js"></script>
+</body>
+</html>
