@@ -29,15 +29,48 @@
   const phoneBox = document.querySelector('.phone');
   if (phoneBox && os === 'phone') phoneBox.hidden = false;
 
-  // Card screenshot tab follows the platform.
-  const tabs = document.querySelectorAll('.tabs button');
+  // Platform tabs (demo video, card screenshot) start on the visitor's platform; Windows otherwise.
+  const mine = os === 'mac' || (os === 'phone' && /iPhone|iPad|iPod|Mac/.test(ua)) ? 'mac'
+    : os === 'linux' ? 'omarchy' : 'windows';
+
+  // Card screenshot.
+  const tabs = document.querySelectorAll('.shots .tabs button');
   const show = id => {
     tabs.forEach(b => b.setAttribute('aria-selected', b.dataset.shot === id));
     document.querySelectorAll('.card-shot img').forEach(i => i.hidden = i.dataset.shot !== id);
   };
   tabs.forEach(b => b.addEventListener('click', () => show(b.dataset.shot)));
-  if (os === 'mac' || (os === 'phone' && /iPhone|iPad|iPod|Mac/.test(ua))) show('mac');
-  else if (os === 'linux') show('omarchy');
+  show(mine);
+
+  // Demo video: only the visible tab's recording loads, once the section is near, and it
+  // pauses off screen. Reduced motion or Data Saver: the poster, with controls to play it by choice.
+  const video = document.querySelector('.demo-frame video');
+  if (video) {
+    const dtabs = document.querySelectorAll('[data-demo]');
+    const still = matchMedia('(prefers-reduced-motion: reduce)').matches || !!(navigator.connection && navigator.connection.saveData);
+    let current = mine, near = !('IntersectionObserver' in window), seen = false;
+    if (still) { video.removeAttribute('autoplay'); video.autoplay = false; video.controls = true; }
+    const load = () => {
+      const base = `/media/demo/${current}-${video.dataset.lang}`;
+      video.poster = base + '.webp';
+      if (!near) return;
+      if (!video.src.endsWith(base + '.mp4')) video.src = base + '.mp4';
+      if (!still && seen) video.play().catch(() => {});
+    };
+    const pick = id => {
+      current = id;
+      dtabs.forEach(b => b.setAttribute('aria-selected', b.dataset.demo === id));
+      load();
+    };
+    dtabs.forEach(b => b.addEventListener('click', () => pick(b.dataset.demo)));
+    if (near) seen = true;
+    else new IntersectionObserver(([e]) => {
+      seen = e.isIntersecting;
+      if (seen && !near) near = true;
+      if (seen) load(); else video.pause();
+    }, { rootMargin: '200px 0px' }).observe(video);
+    pick(current);
+  }
 
   // Microsoft Store attribution: ?utm_source= / ?ref= (or the referring site) becomes the
   // Store campaign ID, so Partner Center → Acquisitions shows installs per channel.
