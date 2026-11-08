@@ -40,7 +40,7 @@
     const lang = ru ? 'ru' : 'en';
     // The current recording and poster names; % is the language. A new cut gets a new name (media/demo/README.md).
     const REC = {
-      windows: { name: 'Windows', file: 'windows-%-2', poster: 'windows-%', ratio: '16 / 9' },
+      windows: { name: 'Windows', file: 'windows-%-3', poster: 'windows-%-3', ratio: '16 / 9' },
       mac: { name: 'macOS', file: 'mac-%', poster: 'mac-%', ratio: '16 / 10' },
       omarchy: { name: 'Omarchy', file: 'omarchy-%-2', poster: 'omarchy-%', ratio: '1920 / 1060' },
     };

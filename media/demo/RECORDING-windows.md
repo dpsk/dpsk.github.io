@@ -2,6 +2,15 @@
 
 A handoff for whoever re-records the Windows demo (a Claude Code session on the Windows machine, or a person). The goal: a recording as smooth as the Mac one (`mac-en.mp4`), with the real animations instead of the cross-fades the current `windows-*-2` cut adds in editing.
 
+## Done: the `-3` cut
+
+Recorded 2026-11-08 on the RTX 5070 Ti machine (one 3840×2160 monitor at 175%): `ddagrab` at 60 fps into `h264_nvenc -cq 12`, then cut and encoded as below. Differences from the plan here:
+
+- The display stayed at 4K/175% (not changed for the recording); the edit scales to 1920.
+- Desktop icons were left on; Do Not Disturb was not touched.
+- The tray icon is never clicked by script. The card opens by a second launch of the app (the running one shows its card) while the cursor glides to the tray icon; Next and the close button are clicked inside the card. The script is `packaging/demo/take.ps1` in the Windows repository.
+- Paintings come from the app's own landscape queue, so they differ from the first cut. Takes with nudity (Corot's *Concert champêtre*) or a grim title (Bruegel's *Massacre of the Innocents*) were thrown away.
+
 ## Why the first recording looks jerky
 
 It was captured with `gdigrab`, which copies the screen through GDI and manages only a few frames a second at 1920×1080. In the 23.5 s recording only 12 frames differ: every painting change and every card opening is a jump, and the flyout animations were lost. Desktop Duplication (`ddagrab` in FFmpeg) takes the frames the compositor already has on the GPU and keeps up at 30–60 fps.
