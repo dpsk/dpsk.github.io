@@ -29,15 +29,56 @@
   const phoneBox = document.querySelector('.phone');
   if (phoneBox && os === 'phone') phoneBox.hidden = false;
 
-  // Card screenshot tab follows the platform.
-  const tabs = document.querySelectorAll('.tabs button');
-  const show = id => {
-    tabs.forEach(b => b.setAttribute('aria-selected', b.dataset.shot === id));
-    document.querySelectorAll('.card-shot img').forEach(i => i.hidden = i.dataset.shot !== id);
-  };
-  tabs.forEach(b => b.addEventListener('click', () => show(b.dataset.shot)));
-  if (os === 'mac' || (os === 'phone' && /iPhone|iPad|iPod|Mac/.test(ua))) show('mac');
-  else if (os === 'linux') show('omarchy');
+  // Demo recording (media/demo): a computer sees its own platform with a caption; phones and
+  // unknown systems get platform tabs. It downloads once on screen and pauses off screen; with
+  // reduced motion or Data Saver it shows the poster, with controls to play it by choice.
+  const demo = document.querySelector('.demo');
+  const video = demo && demo.querySelector('video');
+  const bar = demo && demo.querySelector('.tabs'), cap = demo && demo.querySelector('.demo-caption');
+  if (video && bar && cap) {
+    const lang = ru ? 'ru' : 'en';
+    // The current recording and poster names; % is the language. A new cut gets a new name (media/demo/README.md).
+    const REC = {
+      windows: { name: 'Windows', file: 'windows-%-2', poster: 'windows-%', ratio: '16 / 9' },
+      mac: { name: 'macOS', file: 'mac-%', poster: 'mac-%', ratio: '16 / 10' },
+      omarchy: { name: 'Omarchy', file: 'omarchy-%-2', poster: 'omarchy-%', ratio: '1920 / 1060' },
+    };
+    const fill = (s, map) => s.replace(/\{(\w+)\}/g, (m, k) => map[k]);
+    const mine = os === 'mac' || (os === 'phone' && /iPhone|iPad|iPod|Mac/.test(ua)) ? 'mac'
+      : os === 'linux' ? 'omarchy' : 'windows';
+    const still = matchMedia('(prefers-reduced-motion: reduce)').matches ||
+      !!(navigator.connection && navigator.connection.saveData);
+    if (still) video.controls = true;
+    let current = mine, active = false;
+    const set = id => {
+      current = id;
+      const r = REC[id];
+      video.style.aspectRatio = r.ratio;
+      video.poster = `/media/demo/${r.poster.replace('%', lang)}.webp`;
+      video.setAttribute('aria-label', fill(video.dataset.label, { name: r.name }));
+      bar.querySelectorAll('button').forEach(b => b.setAttribute('aria-selected', b.dataset.demo === id));
+      if (!active) return;
+      const src = `/media/demo/${r.file.replace('%', lang)}.mp4`;
+      if (!video.src.endsWith(src)) video.src = src;
+      if (!still) video.play().catch(() => { video.controls = true; }); // autoplay refused (e.g. iOS Low Power Mode)
+    };
+    if (os === 'windows' || os === 'mac' || os === 'linux') {
+      const [a, b] = Object.keys(REC).filter(id => id !== mine).map(id => REC[id].name);
+      const link = document.createElement('a');
+      link.href = '#install';
+      link.textContent = fill(cap.dataset.also, { a, b });
+      cap.append(fill(cap.dataset.text, { name: REC[mine].name }) + ' ', link);
+      cap.hidden = false;
+    } else {
+      bar.hidden = false;
+      bar.querySelectorAll('button').forEach(b => b.addEventListener('click', () => set(b.dataset.demo)));
+    }
+    set(mine);
+    const run = on => { active = on; if (on) set(current); else video.pause(); };
+    // Without autoplay the src goes on at once (preload="none" keeps it from downloading), so play always works.
+    if (still || !('IntersectionObserver' in window)) run(true);
+    else new IntersectionObserver(entries => run(entries[entries.length - 1].isIntersecting), { threshold: 0.3 }).observe(video);
+  }
 
   // Microsoft Store attribution: ?utm_source= / ?ref= (or the referring site) becomes the
   // Store campaign ID, so Partner Center → Acquisitions shows installs per channel.

@@ -13,5 +13,6 @@ Static HTML served by GitHub Pages from `master`. The previous site lives in the
   - picks the visitor's platform: their download button goes first and stays solid, and phones get "send to my computer";
   - turns `?utm_source=` / `?ref=` (or the referring site) into the Microsoft Store campaign ID `cid=site[-ru][-source]`, so installs per channel show up in Partner Center → Acquisitions;
   - runs the copy buttons.
+  - plays the demo recording in "how it works": the visitor's own platform with a caption, or platform tabs on phones; the file names are in `REC` (recordings and how they were made: [media/demo](media/demo/README.md)).
 - GoatCounter counts clicks on every element with `data-goatcounter-click` (`get-windows-hero`, `get-mac-command`, `phone-send`, `ko-fi`, …).
 - Links for posts: `https://nikaliuk.in/?ref=hn`, `?ref=reddit-windows11`, `/ru/?ref=habr`. GoatCounter shows these as campaigns.
