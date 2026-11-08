@@ -101,11 +101,6 @@
   .card-shot img { width: auto; height: auto; max-width: 100%; max-height: 624px; }
   .card-shot img[hidden] { display: none; }
 
-  /* demo */
-  .demo-head { display: flex; justify-content: space-between; align-items: flex-end; gap: 24px; flex-wrap: wrap; }
-  .demo-frame { margin: 40px 0 0; padding: 12px; background: var(--wall-2); box-shadow: 0 40px 70px -35px #000; }
-  .demo-frame video { display: block; width: 100%; aspect-ratio: 16 / 9; object-fit: contain; background: #000; }
-
   /* fit modes */
   .fits { display: grid; grid-template-columns: repeat(3, 1fr); gap: 28px; margin-top: 48px; }
   .fits figure { margin: 0; }
@@ -233,24 +228,6 @@
 </section>
 
 <main>
-  <section class="block" id="demo">
-    <div class="wrap">
-      <div class="demo-head">
-        <div>
-          <h2>See it in action.</h2>
-          <p class="intro">The wallpaper with its label, the card one click away, and Next, on each platform.</p>
-        </div>
-        <div class="tabs" role="tablist" aria-label="Platform">
-          <button type="button" role="tab" aria-selected="true" data-demo="windows"><svg class="i"><use href="#win"/></svg>Windows</button>
-          <button type="button" role="tab" aria-selected="false" data-demo="mac"><svg class="i"><use href="#apple"/></svg>macOS</button>
-          <button type="button" role="tab" aria-selected="false" data-demo="omarchy"><svg class="i"><use href="#term"/></svg>Omarchy</button>
-        </div>
-      </div>
-      <figure class="demo-frame">
-        <video autoplay muted loop playsinline preload="none" poster="/media/demo/windows-en.webp" data-lang="en" aria-label="Demo: the painting on the desktop with its museum label, the card opening, and Next"></video>
-      </figure>
-    </div>
-  </section>
   <section class="block" id="card">
     <div class="wrap split">
       <div>
@@ -316,9 +293,6 @@
           </ol>
           <div class="act get"><a class="btn solid" data-store href="https://apps.microsoft.com/detail/9plk21lk9ksl" data-goatcounter-click="get-windows-store"><svg class="i"><use href="#win"/></svg>Get it from Microsoft Store</a></div>
           <div class="alt">
-            <p><b>Prefer the command line?</b> The same Store app with winget:</p>
-            <pre>winget install 9PLK21LK9KSL -s msstore</pre>
-            <div class="get"><button class="copy-btn" type="button" data-copy aria-live="polite" data-goatcounter-click="get-windows-winget">Copy command</button></div>
             <p><b>Prefer a direct download?</b> Grab the installer from <a href="https://github.com/dpsk/museum-wallpapers-windows/releases/latest" data-goatcounter-click="get-windows-exe">GitHub Releases</a>. It isn’t code-signed, so Windows may warn you: click <b>More info → Run anyway</b>. Install one or the other, not both. <a href="https://github.com/dpsk/museum-wallpapers-windows">Source on GitHub</a>.</p>
           </div>
         </div>
