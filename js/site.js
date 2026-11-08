@@ -35,7 +35,8 @@
   const demo = document.querySelector('.demo');
   const video = demo && demo.querySelector('video');
   const bar = demo && demo.querySelector('.tabs'), cap = demo && demo.querySelector('.demo-caption');
-  if (video && bar && cap) {
+  const toggle = demo && demo.querySelector('.demo-toggle');
+  if (video && bar && cap && toggle) {
     const lang = ru ? 'ru' : 'en';
     // The current recording and poster names; % is the language. A new cut gets a new name (media/demo/README.md).
     const REC = {
@@ -49,7 +50,38 @@
     const still = matchMedia('(prefers-reduced-motion: reduce)').matches ||
       !!(navigator.connection && navigator.connection.saveData);
     if (still) video.controls = true;
-    let current = mine, active = false;
+    let current = mine, active = false, held = false; // held: paused by the visitor, stays paused
+    // Pause button (looping motion needs one); native controls replace it when they are on.
+    const ICON = {
+      play: '<svg viewBox="0 0 16 16" aria-hidden="true"><path fill="currentColor" d="M4 2.5v11L13 8z"/></svg>',
+      pause: '<svg viewBox="0 0 16 16" aria-hidden="true"><path fill="currentColor" d="M3.5 2.5h3v11h-3zM9.5 2.5h3v11h-3z"/></svg>',
+    };
+    const icon = () => {
+      const k = video.paused ? 'play' : 'pause';
+      toggle.innerHTML = ICON[k];
+      toggle.setAttribute('aria-label', toggle.dataset[k]);
+    };
+    // Autoplay refused (e.g. iOS Low Power Mode): native controls instead. An AbortError only means
+    // a pause or a new src interrupted the pending play, which is expected.
+    const play = () => video.play().catch(e => {
+      if (e.name !== 'NotAllowedError') return;
+      const focused = document.activeElement === toggle;
+      video.controls = true;
+      toggle.hidden = true;
+      if (focused) video.focus();
+    });
+    const load = () => {
+      const src = `/media/demo/${REC[current].file.replace('%', lang)}.mp4`;
+      if (!video.src.endsWith(src)) video.src = src;
+    };
+    video.addEventListener('play', icon);
+    video.addEventListener('pause', icon);
+    toggle.addEventListener('click', () => {
+      held = !video.paused;
+      if (held) video.pause(); else { load(); play(); }
+    });
+    toggle.hidden = still;
+    icon();
     const set = id => {
       current = id;
       const r = REC[id];
@@ -58,9 +90,8 @@
       video.setAttribute('aria-label', fill(video.dataset.label, { name: r.name }));
       bar.querySelectorAll('button').forEach(b => b.setAttribute('aria-selected', b.dataset.demo === id));
       if (!active) return;
-      const src = `/media/demo/${r.file.replace('%', lang)}.mp4`;
-      if (!video.src.endsWith(src)) video.src = src;
-      if (!still) video.play().catch(() => { video.controls = true; }); // autoplay refused (e.g. iOS Low Power Mode)
+      load();
+      if (!still && !held) play();
     };
     if (os === 'windows' || os === 'mac' || os === 'linux') {
       const [a, b] = Object.keys(REC).filter(id => id !== mine).map(id => REC[id].name);
@@ -71,7 +102,7 @@
       cap.hidden = false;
     } else {
       bar.hidden = false;
-      bar.querySelectorAll('button').forEach(b => b.addEventListener('click', () => set(b.dataset.demo)));
+      bar.querySelectorAll('button').forEach(b => b.addEventListener('click', () => { held = false; set(b.dataset.demo); }));
     }
     set(mine);
     const run = on => { active = on; if (on) set(current); else video.pause(); };

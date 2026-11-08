@@ -99,7 +99,10 @@
   .card-head { display: grid; grid-template-columns: 1fr 1fr; column-gap: 72px; align-items: end; }
   .card-head p { color: var(--muted); max-width: 46ch; margin: 0; }
   .demo { margin-top: 56px; display: grid; gap: 18px; justify-items: center; }
-  .demo-frame { margin: 0; width: 100%; padding: 12px; background: var(--wall-2); box-shadow: 0 40px 70px -35px #000; }
+  .demo-frame { position: relative; margin: 0; width: 100%; padding: 12px; background: var(--wall-2); box-shadow: 0 40px 70px -35px #000; }
+  .demo-toggle { position: absolute; left: 24px; bottom: 24px; display: grid; place-items: center; width: 36px; height: 36px; padding: 0; background: rgb(21 19 15 / .72); border: 1px solid rgb(239 232 220 / .3); color: var(--fg); cursor: pointer; transition: opacity .2s; }
+  @media (hover: hover) { .demo-toggle { opacity: .7; } .demo-frame:hover .demo-toggle, .demo-toggle:focus-visible { opacity: 1; } }
+  .demo-toggle svg { width: 14px; height: 14px; }
   .demo-frame video { display: block; width: 100%; height: auto; aspect-ratio: 16 / 9; background: var(--wall-2); }
   .demo-caption { margin: 0; justify-self: start; font-size: 15px; color: var(--muted); }
   .demo-caption a { color: var(--fg); margin-left: 4px; }
@@ -180,6 +183,7 @@
     .card-head ul.points { margin-top: 28px; }
     .demo { margin-top: 40px; }
     .demo-frame { padding: 6px; }
+    .demo-toggle { left: 14px; bottom: 14px; width: 32px; height: 32px; }
     section.block { padding-top: 96px; }
     footer .others { flex-direction: column; gap: 16px; }
     footer .credits { text-align: left; }
@@ -254,7 +258,7 @@
           <button type="button" role="tab" aria-selected="false" data-demo="mac"><svg class="i"><use href="#apple"/></svg>macOS</button>
           <button type="button" role="tab" aria-selected="false" data-demo="omarchy"><svg class="i"><use href="#term"/></svg>Omarchy</button>
         </div>
-        <figure class="demo-frame"><video muted loop playsinline preload="none" poster="/media/demo/windows-en.webp" data-label="Demo on {name}: paintings changing on the desktop, with the museum label and the card"></video></figure>
+        <figure class="demo-frame"><video muted loop playsinline preload="none" poster="/media/demo/windows-en.webp" data-label="Demo on {name}: paintings changing on the desktop, with the museum label and the card"></video><button class="demo-toggle" type="button" hidden data-play="Play the demo" data-pause="Pause the demo"></button></figure>
         <p class="demo-caption" hidden data-text="{name}: the label in the corner, the card one click away, the next painting." data-also="Also on {a} and {b}"></p>
       </div>
     </div>
